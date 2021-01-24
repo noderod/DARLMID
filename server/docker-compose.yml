@@ -1,0 +1,37 @@
+version: '3'
+
+volumes:
+  es_storage:
+
+services:
+
+  nginx:
+    build: ./nginx
+    ports:
+     - "8080:80"
+    volumes:
+      - es_storage:/expert_seas/images
+
+
+  main_node:
+    build: ./main_node
+    expose:
+     - "8080"
+    volumes:
+      - es_storage:/expert_seas/images
+    command: "sleep infinity"
+    environment:
+      POSTGRES_USER: postgres                # Superuser
+      POSTGRES_PASSWORD: ht673f45gty672cev45 # Superuser password
+      POSTGRES_DB: expert_seas
+
+
+  db:
+    image: postgres
+    restart: always
+    ports:
+     - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres                # Superuser
+      POSTGRES_PASSWORD: ht673f45gty672cev45 # Superuser password
+      POSTGRES_DB: expert_seas

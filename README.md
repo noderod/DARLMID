@@ -17,11 +17,11 @@ This project was started as a possible final project for CS 5170 in Northeastern
 
 ## Deployment
 
+Note: *sudo* permission may be necessary.
+
 ```bash
 cd server
 docker-compose up -d --build
-
-
 ```
 
 
@@ -49,3 +49,12 @@ docker-compose down -v
 13. https://hub.docker.com/_/postgres
 14. https://stackoverflow.com/questions/45128902/psycopg2-and-sql-injection-security
 15. https://docs.github.com/en/github/importing-your-projects-to-github/adding-an-existing-project-to-github-using-the-command-line
+16. https://pkgs.alpinelinux.org/package/edge/main/x86/postgresql-dev
+17. https://www.w3schools.com/css/css_howto.asp
+18. https://www.dummies.com/web-design-development/html5-and-css3/how-to-use-an-external-style-sheet-for-html5-and-css3-programming/
+19. https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_topnav
+20. https://stackoverflow.com/questions/8722163/how-to-assign-multiple-classes-to-an-html-container
+21. https://www.w3schools.com/colors/colors_names.asp
+22. https://www.w3schools.com/howto/howto_css_fixed_footer.asp
+23. https://stackoverflow.com/questions/45764517/how-to-return-redirect-response-from-aiohttp-web-server
+24. http://demos.aiohttp.org/en/latest/tutorial.html#middlewares

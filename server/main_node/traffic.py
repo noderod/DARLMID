@@ -13,6 +13,14 @@ async def index(request):
     return web.FileResponse('/expert_seas/html/index.html')
 
 
+
+# Serves Sign-Up page
+async def sign_up(request):
+    # Non-logged-in sign-up
+    return web.FileResponse('/expert_seas/html/sign_up.html')
+
+
+
 # Redirects to custom 404 page
 async def handle_404_error(request):
     raise web.HTTPFound('/404.html')
@@ -51,6 +59,12 @@ expert_seas_web_app = web.Application()
 expert_seas_web_app.router.add_get('/', index)
 expert_seas_web_app.router.add_get('/index', index)
 expert_seas_web_app.router.add_get('/index.html', index)
+
+# Sign-Up
+expert_seas_web_app.router.add_get('/sign_up', sign_up)
+expert_seas_web_app.router.add_get('/sign_up.html', sign_up)
+
+# Sign-up
 
 
 # Error handling

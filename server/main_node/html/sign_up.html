@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <title>Expert-SEAS</title>
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="icon" href="/images/expert_seas_icon.png">
+    <script type="text/javascript" src="/js/background_generator_sign_up__login.js" defer></script>
+  </head>
+
+  <body onresize="resize_appropriately()">
+
+    <div class="full_page_container">
+      <div class="center-x navbar">
+
+        <a href="/" style="width: 55%;"></a>
+        <a class="element" id="navbar element" href="/">Home</a>
+        <a class="element" href="/about_us">About Us</a>
+        <a class="element" href="/pricing">Pricing</a>
+        <a class="element login" href="/login">Login</a>
+        <a class="element signup" href="/sign_up">Sign-Up</a>
+
+      </div>
+
+      <div class="center-xy full_bakground_sign_up__login" id="middle div">
+        
+        <div class="box_with_rounded_corners">
+          <div class="center-x"><img src="/images/sign_up__icon.svg" alt="Early airplane" style="transform:scale(.75);"></div>
+          <h2 class="center-x"><u>Sign-Up</u></h2>
+
+          <form action="/sign_up__action" id="sign_up_form">
+
+            <div class="center-x">
+              <table>
+                <tr>
+                  <th><label for="username">Username:</label></th>
+                  <th><input type="text" id="username" name="username" minlength="3" placeholder="Minimum length 3"></th>
+                </tr>
+                <tr>
+                  <th><label for="email">Email:</label></th>
+                  <th><input type="text" id="email" name="email" minlength="4" placeholder="me@example.com"></th>
+                </tr>
+                <tr>
+                  <th><label for="password">Password:</label></th>
+                  <th><input type="text" id="password" name="password" minlength="8" placeholder="Minimum length 8"></th>
+                </tr>
+                <tr>
+                  <th><input type="checkbox" id="agreed_to_TOS" name="agreed_to_TOS" value="agreed" required></th>
+                  <th><label for="agreed_to_TOS">I agree to the Terms & Conditions (TBD)</label></th>
+                </tr>
+              </table>
+
+            
+              <input type="submit" value="Submit">
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+
+      <div class="footer" id="standard footer">
+        <div class="thin_horizontal_line_CornFlowerBlue"></div>
+        <p>Copyright: Carlos Redondo Albertos, 2021</p>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,10 +1,19 @@
+/*HTML body occupies all available space*/
+body {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+
+
 /*Centers along both X and Y axes*/
 .center-xy {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-
 
 /*Centers along X axis (horizontally)*/
 .center-x {
@@ -17,6 +26,7 @@
   display: flex;
   align-items: center;
 }
+
 
 /*Top navigation bar requirements*/
 .navbar {
@@ -50,10 +60,21 @@
 }
 
 
-/*HTML body occupies all available space*/
-body {
-  margin: 0;
+/*Gradient background that occupies the entire div, used for sign-up and login pages.*/
+.full_bakground_sign_up__login {
+  width: 100%;
+  background-image: linear-gradient(GhostWhite, LightCyan);
 }
+
+
+/*Box with rounded corners*/
+.box_with_rounded_corners {
+  border-radius: 25px;
+  border: 3px solid FireBrick;
+  background-color: HoneyDew;
+  width: 24%;
+}
+
 
 /*Thin horizontal line, useful for separations*/
 .thin_horizontal_line_CornFlowerBlue{
@@ -63,9 +84,9 @@ body {
 }
 
 .footer {
-   position: fixed;
-   left: 0;
+   position: relative;
    bottom: 0;
+   padding-bottom: 1vh;
    width: 100%;
    background-color: AliceBlue;
    color: Black;

@@ -2,7 +2,7 @@
 BASICS
 
 Updates the background in the middle div so that everything is balanced.
-Only useful for the sign-up and login pages
+Only useful for the sign-up and login pages.
 */
 
 function resize_appropriately() {
@@ -13,7 +13,8 @@ function resize_appropriately() {
   var navbar_height = document.getElementById("navbar element").offsetHeight;
   var footer_height = document.getElementById("standard footer").offsetHeight;
 
-  var middle_height = total_window_height - navbar_height - footer_height;
+  // 0 size if already occupying the entire page
+  var middle_height = Math.max(total_window_height - navbar_height - footer_height, 0);
 
   // Sets the height of the middle div
   document.getElementById("middle div").style.height = middle_height.toString() + "px";

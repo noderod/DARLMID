@@ -74,3 +74,4 @@ docker-compose down -v
 38. https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_table_test
 39. https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_submit
 40. https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/minlength
+41. https://stackoverflow.com/questions/1297449/change-image-size-with-javascript

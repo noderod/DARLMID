@@ -1,36 +1,34 @@
+<!DOCTYPE html>
 <html>
-<header>
-  <title>404: Not Found</title>
-  <link rel="stylesheet" type="text/css" href="/css/common.css">
-  <link rel="icon" href="/images/expert_seas_icon.png">
-</header>
+  <head>
+    <title>404: Not Found</title>
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="icon" href="/images/expert_seas_icon.png">
+    <script type="text/javascript" src="/js/404_resizer.js" defer></script>
+  </head>
 
-<body>
+  <body onresize="resize_appropriately()">
 
+    <div class="center-x navbar">
+      <a href="/" style="width: 55%;"></a>
+      <a class="element" id="navbar element" href="/">Home</a>
+      <a class="element" href="/about_us">About Us</a>
+      <a class="element" href="/pricing">Pricing</a>
+      <a class="element login" href="/login">Login</a>
+      <a class="element signup" href="/sign_up">Sign-Up</a>
+    </div>
 
-  <div class="center-x navbar">
+    <div class="center-xy" id="404_message">
+      <p style="font-size:450%">404</p>
+    </div>
+    <div class="center-xy">
+      <img src="/images/404.png" alt="Ship aft" id="404_img">
+    </div>
 
-    <a href="/" style="width: 55%;"></a>
-    <a class="element" href="/">Home</a>
-    <a class="element" href="/about_us">About Us</a>
-    <a class="element" href="/pricing">Pricing</a>
-    <a class="element login" href="/login">Login</a>
-    <a class="element signup" href="/sign_up">Sign-Up</a>
+    <div class="footer" id="standard footer">
+      <div class="thin_horizontal_line_CornFlowerBlue"></div>
+      <p>Copyright: Carlos Redondo Albertos, 2021</p>
+    </div>
 
-  </div>
-
-  <div class="center-xy">
-    <p style="font-size:450%">404</p>
-  </div>
-  <div class="center-xy">
-    <img src="/images/404.png" alt="Ship aft" width="30%" height="37.5%">
-  </div>
-
-
-  <div class="footer">
-    <div class="thin_horizontal_line_CornFlowerBlue"></div>
-    <p>Copyright: Carlos Redondo Albertos, 2021</p>
-  </div>
-
-</body>
+  </body>
 </html>

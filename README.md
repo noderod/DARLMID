@@ -75,3 +75,6 @@ docker-compose down -v
 39. https://www.w3schools.com/html/tryit.asp?filename=tryhtml_form_submit
 40. https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/minlength
 41. https://stackoverflow.com/questions/1297449/change-image-size-with-javascript
+42. https://stackoverflow.com/questions/9686538/align-labels-in-form-next-to-input
+43. https://freesvg.org/international-space-station-vector-drawing
+44. https://www.w3schools.com/cssref/css_units.asp

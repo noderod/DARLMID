@@ -67,14 +67,51 @@ body {
 }
 
 
-/*Box with rounded corners*/
-.box_with_rounded_corners {
+/*Sign-up box with rounded corners*/
+.signup_box_with_rounded_corners {
   border-radius: 25px;
-  border: 3px solid FireBrick;
+  border: 3px solid DarkSlateBlue;
   background-color: HoneyDew;
-  width: 24%;
 }
 
+/*Login box with rounded corners*/
+.login_box_with_rounded_corners {
+  border-radius: 25px;
+  border: 3px solid FireBrick;
+  background-color: Linen;
+}
+
+
+.gridded_form {
+    display:grid;
+    grid-template-columns: max-content max-content;
+    grid-gap:2%;
+}
+
+
+
+/*Custom submit input at the end of form*/
+.submit_input {
+  background-color: SteelBlue;
+  color: GhostWhite;
+  width: 50%;
+  padding: 5px;
+}
+
+.submit_input:hover {
+  background-color: DarkBlue;
+}
+
+.submit_input_login {
+  background-color: DarkRed;
+  color: GhostWhite;
+  width: 50%;
+  padding: 5px;
+}
+
+.submit_input_login:hover {
+  background-color: Maroon;
+}
 
 /*Thin horizontal line, useful for separations*/
 .thin_horizontal_line_CornFlowerBlue{

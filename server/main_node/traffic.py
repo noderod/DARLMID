@@ -20,6 +20,12 @@ async def sign_up(request):
     return web.FileResponse('/expert_seas/html/sign_up.html')
 
 
+# Login page
+# Serves Sign-Up page
+async def login(request):
+    # Non-logged-in sign-up
+    return web.FileResponse('/expert_seas/html/login.html')
+
 
 # Redirects to custom 404 page
 async def handle_404_error(request):
@@ -64,7 +70,9 @@ expert_seas_web_app.router.add_get('/index.html', index)
 expert_seas_web_app.router.add_get('/sign_up', sign_up)
 expert_seas_web_app.router.add_get('/sign_up.html', sign_up)
 
-# Sign-up
+# Login
+expert_seas_web_app.router.add_get('/login', login)
+expert_seas_web_app.router.add_get('/login.html', login)
 
 
 # Error handling

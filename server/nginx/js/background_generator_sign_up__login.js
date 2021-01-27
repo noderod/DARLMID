@@ -2,22 +2,46 @@
 BASICS
 
 Updates the background in the middle div so that everything is balanced.
+Updates the central boxes' size
 Only useful for the sign-up and login pages.
 */
 
-function resize_appropriately() {
+
+
+// Updates the size of the middle div so that entire page is occupied
+function resize_middle_div() {
   // Obtains the total window height
-  var total_window_height = window.innerHeight;
+  let total_window_height = window.innerHeight;
 
   // Gets the navbar and footer's heights
-  var navbar_height = document.getElementById("navbar element").offsetHeight;
-  var footer_height = document.getElementById("standard footer").offsetHeight;
+  let navbar_height = document.getElementById("navbar element").offsetHeight;
+  let footer_height = document.getElementById("standard footer").offsetHeight;
 
   // 0 size if already occupying the entire page
-  var middle_height = Math.max(total_window_height - navbar_height - footer_height, 0);
+  let middle_height = Math.max(total_window_height - navbar_height - footer_height, 0);
 
   // Sets the height of the middle div
   document.getElementById("middle div").style.height = middle_height.toString() + "px";
+}
+
+
+// Resizes the central box so that it is always 10% wider than the form within
+function resize_central_box() {
+
+  let central_box_width = document.getElementById("central_box").offsetWidth;
+  let central_form_width = document.getElementById("central_form").offsetWidth;
+
+  if ((1.1*central_form_width) > central_form_width) {
+    central_box_width = 1.1*central_form_width;
+    document.getElementById("central_box").style.width = central_box_width.toString() + "px";
+  }
+
+}
+
+
+function resize_appropriately() {
+  resize_middle_div();
+  resize_central_box();
 }
 
 // Executes immediately upon loading

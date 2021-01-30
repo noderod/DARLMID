@@ -18,10 +18,14 @@ function resize_middle_div() {
   let footer_height = document.getElementById("standard footer").offsetHeight;
 
   // 0 size if already occupying the entire page
-  let middle_height = Math.max(total_window_height - navbar_height - footer_height, 0);
+  let min_necessary_middle_height = Math.max(total_window_height - navbar_height - footer_height, 0);
 
-  // Sets the height of the middle div
-  document.getElementById("middle div").style.height = middle_height.toString() + "px";
+  let current_middle_height = document.getElementById("middle div").offsetHeight;
+
+  // Only act if the size of the middle div is smaller than the window's height
+  if (current_middle_height < min_necessary_middle_height) {
+    document.getElementById("middle div").style.height = min_necessary_middle_height.toString() + "px";
+  }
 }
 
 
@@ -35,7 +39,6 @@ function resize_central_box() {
     central_box_width = 1.1*central_form_width;
     document.getElementById("central_box").style.width = central_box_width.toString() + "px";
   }
-
 }
 
 

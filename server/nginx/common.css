@@ -8,20 +8,20 @@ body {
 
 
 
-/*Centers along both X and Y axes*/
+/*Centers contents along both X and Y axes*/
 .center-xy {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/*Centers along X axis (horizontally)*/
+/*Centers contents along X axis (horizontally)*/
 .center-x {
   display: flex;
   justify-content: center;
 }
 
-/*Centers along Y axis (vertically)*/
+/*Centers contents along Y axis (vertically)*/
 .center-y {
   display: flex;
   align-items: center;
@@ -62,24 +62,32 @@ body {
 
 /*Gradient background that occupies the entire div, used for sign-up and login pages.*/
 .full_bakground_sign_up__login {
-  width: 100%;
   background-image: linear-gradient(GhostWhite, LightCyan);
 }
 
 
 /*Sign-up box with rounded corners*/
 .signup_box_with_rounded_corners {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  border-radius: 25px;
+  border: 3px solid FireBrick;
+  background-color: Linen;
+}
+
+/*Login box with rounded corners*/
+.login_box_with_rounded_corners {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
   border-radius: 25px;
   border: 3px solid DarkSlateBlue;
   background-color: HoneyDew;
 }
 
-/*Login box with rounded corners*/
-.login_box_with_rounded_corners {
-  border-radius: 25px;
-  border: 3px solid FireBrick;
-  background-color: Linen;
-}
 
 
 .gridded_form {
@@ -92,26 +100,68 @@ body {
 
 /*Custom submit input at the end of form*/
 .submit_input {
-  background-color: SteelBlue;
-  color: GhostWhite;
-  width: 50%;
-  padding: 5px;
-}
-
-.submit_input:hover {
-  background-color: DarkBlue;
-}
-
-.submit_input_login {
   background-color: DarkRed;
   color: GhostWhite;
   width: 50%;
   padding: 5px;
+  border: none;
+}
+
+.submit_input:hover {
+  background-color: Maroon;
+}
+
+.submit_input_login {
+  background-color: SteelBlue;
+  color: GhostWhite;
+  width: 50%;
+  padding: 5px;
+  border: none;
 }
 
 .submit_input_login:hover {
-  background-color: Maroon;
+  background-color: DarkBlue;
 }
+
+.disallowed_button {
+  background-color: Gainsboro;
+  color: Black;
+  width: 50%;
+  padding: 5px;
+  border: none;
+}
+
+.disallowed_button:hover {
+  background-color: Grey;
+}
+
+
+/*Error message*/
+.error_message {
+  background-color: IndianRed;
+  color: White;
+  border: 2px solid OrangeRed;
+  width: 85%;
+  padding: 2%;
+  margin: 3%;
+}
+
+/*Success message*/
+.success_message {
+  background-color: DarkOliveGreen;
+  color: White;
+  border: 2px solid DarkGreen;
+  width: 85%;
+  padding: 2%;
+  margin: 3%;
+}
+
+
+/*Forces an item to occupy 100% of the width*/
+.full_width {
+  width: 100%;
+}
+
 
 /*Thin horizontal line, useful for separations*/
 .thin_horizontal_line_CornFlowerBlue{

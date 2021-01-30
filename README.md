@@ -14,8 +14,13 @@ The expert piloting data is expected to lead to an output that ressembles' the p
 
 This project was started as a possible final project for CS 5170 in Northeastern University, Spring 2021 semester.
 
+PostgreSQL and Redis ports left open instead of merely exposed in case these databases need to be accessed from other servers, this may be modified.
+
 
 ## Deployment
+
+Modify the *.env* file to change the credentials.
+
 
 Note: *sudo* permission may be necessary.
 
@@ -78,3 +83,30 @@ docker-compose down -v
 42. https://stackoverflow.com/questions/9686538/align-labels-in-form-next-to-input
 43. https://freesvg.org/international-space-station-vector-drawing
 44. https://www.w3schools.com/cssref/css_units.asp
+45. https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_form_submit
+46. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length
+47. https://stackoverflow.com/questions/6199773/how-to-enable-disable-an-html-button-based-on-scenarios
+48. https://stackoverflow.com/questions/195951/how-can-i-change-an-elements-class-with-javascript
+49. https://stackoverflow.com/questions/3547035/javascript-getting-html-form-values
+50. https://stackoverflow.com/questions/32459646/removing-the-shadow-from-a-button
+51. https://stackoverflow.com/questions/15110484/javascript-how-to-append-div-in-begining-of-another-div
+52. https://developer.mozilla.org/en-US/docs/Web/API/ParentNode/prepend
+53. https://stackoverflow.com/questions/16584121/change-div-id-by-javascript
+54. https://stackoverflow.com/questions/596467/how-do-i-convert-a-float-number-to-a-whole-number-in-javascript
+55. https://stackoverflow.com/questions/11722400/programmatically-change-the-src-of-an-img-tag
+56. https://stackoverflow.com/questions/21727317/how-to-check-confirm-password-field-in-form-without-reloading-page
+57. https://stackoverflow.com/questions/39449739/aiohttp-how-to-retrieve-the-data-body-in-aiohttp-server-from-requests-get
+58. https://stackoverflow.com/questions/52246796/await-a-method-and-assign-a-variable-to-the-returned-value-with-asyncio
+59. https://stackoverflow.com/questions/46428889/keeping-pycache-out-of-my-repository-when-adding-committing-from-pythonany
+60. https://www.w3schools.com/css/tryit.asp?filename=trycss_table_align_center
+61. https://stackoverflow.com/questions/29775797/fetch-post-json-data
+62. https://github.com/ritua2/gib/blob/master/middle-layer/.env
+63. https://github.com/ritua2/gib/blob/master/middle-layer/docker-compose.yml
+64. https://hub.docker.com/_/redis
+65. https://www.psycopg.org/docs/module.html#psycopg2.connect
+66. https://www.postgresqltutorial.com/postgresql-create-table/
+67. https://stackoverflow.com/questions/50070877/postgres-psycopg2-create-table
+68. https://www.postgresql.org/docs/8.0/sql-createuser.html
+69. http://oliviertech.com/python/generate-SHA512-hash-from-a-String/
+70. https://stackoverflow.com/questions/4244896/dynamically-access-object-property-using-variable
+71. https://stackoverflow.com/questions/45018338/javascript-fetch-api-how-to-save-output-to-variable-as-an-object-not-the-prom/45018619

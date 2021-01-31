@@ -21,6 +21,7 @@ services:
       - es_storage:/expert_seas/images
     command: "sleep infinity"
     environment:
+      - MAIN_NODE_URL
       - POSTGRES_URL
       - POSTGRES_USER
       - POSTGRES_PASSWORD

@@ -5,6 +5,10 @@ Auxiliary functions for traffic.py
 """
 
 
+import bleach
+
+
+
 """
 Checks if a dictionary contains certain keys -> boolean
 
@@ -38,3 +42,13 @@ def missing_keys_in_dict(dict_to_be_checked, keys_to_be_checked):
 
     # All keys are checked to be in
     return missing_keys
+
+
+
+"""
+Sanitizes a certain string, replacing HTML tags by HTML symbols. -> str
+
+given_str (str)
+"""
+def sanitize_str_for_HTML(given_str):
+    return bleach.clean(given_str, tags=[])

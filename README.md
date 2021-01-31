@@ -35,6 +35,9 @@ Note, to bring the containers down:
 docker-compose down -v
 ```
 
+## Licensing
+
+Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)) licensed under the terms of the Apache 2 licensed, available in this project [here](/licenses/LICENSE-2.0.txt) and also originally [here](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
 ## References
@@ -110,3 +113,11 @@ docker-compose down -v
 69. http://oliviertech.com/python/generate-SHA512-hash-from-a-String/
 70. https://stackoverflow.com/questions/4244896/dynamically-access-object-property-using-variable
 71. https://stackoverflow.com/questions/45018338/javascript-fetch-api-how-to-save-output-to-variable-as-an-object-not-the-prom/45018619
+72. https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)
+73. http://www.apache.org/licenses/LICENSE-2.0.txt
+74. https://github.com/mozilla/bleach
+75. https://bleach.readthedocs.io/en/latest/clean.html
+76. https://github.com/aio-libs/aiohttp/blob/master/examples/web_cookies.py
+77. https://stackoverflow.com/questions/26745519/converting-dictionary-to-json
+78. https://github.com/js-cookie/js-cookie
+79. https://docs.aiohttp.org/en/stable/web_reference.html

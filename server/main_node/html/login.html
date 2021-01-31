@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Expert-SEAS</title>
+    <title>Login</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="icon" href="/images/expert_seas_icon.png">
+    <script type="text/javascript" src="/js/common.js" defer></script>
+    <script type="text/javascript" src="/js/login__processing.js" defer></script>
     <script type="text/javascript" src="/js/background_generator_sign_up__login.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs">import Cookies from 'js-cookie';</script>
   </head>
 
-  <body onresize="resize_appropriately()">
+  <body>
 
     <div class="center-x navbar">
       <a href="/" style="width: 55%;"></a>
@@ -22,25 +26,27 @@
     <div class="center-x full_bakground_sign_up__login" id="middle div">
       <div class="login_box_with_rounded_corners" id="central_box">
         <div class="center-x"><img src="/images/login__icon.svg" alt="International Space Station" width="70%"></div>
-        <h2 class="center-x"><u>Sign-Up</u></h2>
+        <h2 class="center-x"><u>Login</u></h2>
 
         <div class="center-x">
-          <form action="/login__action" id="central_form">
+          <form id="central_form">
             <div class="gridded_form">
-              <label for="username or email"><b>Username/Email:</b></label>
-              <input type="text" id="username or email" name="username or email" minlength="3" maxlength="30" required>
+              <label for="username"><b>Username:</b></label>
+              <input type="text" id="username" name="username">
 
               <label for="password"><b>Password:</b></label>
-              <input type="password" id="password" name="password" minlength="8" maxlength="30" required>
+              <input type="password" id="password" name="password">
             </div>
             <br>
 
             <div class="center-x">
-              <input type="submit" value="Submit" class="submit_input_login">
+              <input type="button" value="Login" onclick="attempt__login()" class="submit_input_login" id="login button">
             </div>
           </form>
 
         </div>
+
+        <div class="center-x full_width" id="login errors"></div>
       </div>
 
     </div>

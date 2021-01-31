@@ -66,7 +66,6 @@ async function attempt__sign_up() {
   let agreed_to_TOS = "agreed";
 
   let API_result = await POST_JSON_return_JSON("/sign_up_action", {"username": username, "password": password, "agreed to TOS": "yes"});
-  console.log(API_result);
 
 
   // Clears any possible error messages

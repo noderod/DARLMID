@@ -71,9 +71,32 @@ def create_new_user(given_username, given_password):
 
     current_UTC_time = get_UTC_time()
 
-    # Creates main user table
+    # Inserts the user in the appropriate table
     cur.execute("INSERT INTO user_data(username, password, salt, date_creation, last_action, last_login, last_logout) VALUES (%s, %s, %s, %s, %s, %s, %s)",
         (given_username, salt_password(given_password, salt), salt, current_UTC_time, current_UTC_time, current_UTC_time, current_UTC_time))
 
     con.commit()
     con.close()
+
+
+
+"""
+Checks if a username and password (after salted and hashed) are in the database. -> Boolean
+
+given_username (str): Assumed to exist (must be checked before)
+given_password (str): Unsalted
+"""
+def verify_username_password(given_username, given_password):
+
+    con = psycopg2.connect (host = os.environ["POSTGRES_URL"], database = os.environ["POSTGRES_DB"], user = os.environ["R_USERNAME"], password = os.environ["R_PASSWORD"])
+    cur = con.cursor()
+
+    # Obtains the salt
+    cur.execute("SELECT salt, password FROM user_data WHERE username=%s", (given_username,))
+
+    salt, stored_salted_password = cur.fetchone()
+    salted_password = salt_password(given_password, salt)
+
+    con.close()
+
+    return stored_salted_password == salted_password

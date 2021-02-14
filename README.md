@@ -16,6 +16,13 @@ This project was started as a possible final project for CS 5170 in Northeastern
 
 PostgreSQL and Redis ports left open instead of merely exposed in case these databases need to be accessed from other servers, this may be modified.
 
+## Development
+
+```bash
+make dev
+```
+
+Then visit http://localhost:8080/ to see the website running.
 
 ## Space
 
@@ -44,13 +51,13 @@ Note: *sudo* permission may be necessary.
 
 ```bash
 cd server
-docker-compose up -d --build
+make deploy
 ```
 
 
 Note, to bring the containers down:
 ```bash
-docker-compose down -v
+make teardown
 ```
 
 ## Licensing

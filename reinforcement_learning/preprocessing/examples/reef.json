@@ -1,0 +1,15 @@
+{
+    "metadata":{"user id":"erwtuy578", "datetime":"2021-02-13 01:23:45"},
+
+    "obstacles":[
+        {
+            "type":"circle",
+            "center":[20, 20],
+            "r":10
+        },
+        {
+            "type":"polygon",
+            "points":[[50, 50], [55, 60], [72, 81]]
+        }
+    ]
+}

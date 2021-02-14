@@ -17,6 +17,24 @@ This project was started as a possible final project for CS 5170 in Northeastern
 PostgreSQL and Redis ports left open instead of merely exposed in case these databases need to be accessed from other servers, this may be modified.
 
 
+## Space
+
+The reinforcement agent operates in a 100x100 m square, which may contain obstacles. The obstacles can be either circles or non
+self-intersecting polygons. These obstacles can insect each other or the wall.
+
+
+## Required software and libraries
+
+Software:
+* Docker
+
+Python3 libraries:
+* matplotlib
+* numpy
+* shapely
+
+
+
 ## Deployment
 
 Modify the *.env* file to change the credentials.
@@ -121,3 +139,5 @@ Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)
 77. https://stackoverflow.com/questions/26745519/converting-dictionary-to-json
 78. https://github.com/js-cookie/js-cookie
 79. https://docs.aiohttp.org/en/stable/web_reference.html
+80. https://docs.python.org/3/library/sys.html
+81. https://docs.python.org/3/howto/argparse.html

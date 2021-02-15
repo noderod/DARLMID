@@ -1,5 +1,5 @@
 {
-    "metadata":{"user id":"erwtuy578", "datetime":"2021-02-13 01:23:45"},
+    "metadata":{"user id":"erwtuy578", "datetime":1613334798},
 
     "obstacles":[
         {
@@ -11,5 +11,11 @@
             "type":"polygon",
             "points":[[50, 50], [55, 60], [72, 81]]
         }
+    ],
+
+    "positions":[
+        [[1, 1], 0.08727, 0],
+        [[6, 8], -0.08727, 2],
+        [[67, 2], 2.723, 1]
     ]
 }

@@ -30,6 +30,36 @@ The reinforcement agent operates in a 100x100 m square, which may contain obstac
 self-intersecting polygons. These obstacles can insect each other or the wall.
 
 
+### Understanding JSON output files
+
+Each user demonstration will produce a JSON output which is then preprocessed before been used as training material for the
+reinforcement agent. Examples are provided in the examples subdirectory [here](./reinforcement_learning/preprocessing/examples).
+
+Each JSON file is composed of the following required tags:
+
+* "metadata":
+	* "user id"
+	* "datetime": Must be a UTC timestamp
+
+* "obstacle": either circles or polygons
+	* circles: {"type":"circle", "center":[x, y], "r":radius}
+	* polygons: {"type":"polygon", "points":[[x1, y1], [x2, y2], ..., [xn, yn]]}
+
+* poisitions: 
+ 	* [[x, y], Angle (in radians, counterclockwise), Action code]
+
+
+Polygons cannot be self-intersecting. Do not repeat the polygon's starting point at the end.
+
+Action codes:
+| **Code** | **Action**           |
+| :--------|:--------------------:|
+| 0        | No change            |
+| 1        | Turn left            |
+| 2        | Turn right           |
+| 3        | Turn directions      |
+
+
 ## Required software and libraries
 
 Software:
@@ -148,3 +178,9 @@ Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)
 79. https://docs.aiohttp.org/en/stable/web_reference.html
 80. https://docs.python.org/3/library/sys.html
 81. https://docs.python.org/3/howto/argparse.html
+82. https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+83. https://dillinger.io/
+84. https://stackoverflow.com/questions/9215658/plot-a-circle-with-pyplot
+85. https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/fill.html
+86. https://stackoverflow.com/questions/2849286/python-matplotlib-subplot-how-to-set-the-axis-range
+87. https://www.w3schools.com/python/ref_keyword_assert.asp

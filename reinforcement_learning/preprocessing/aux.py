@@ -4,7 +4,9 @@ SUMMARY
 Auxiliary functions for preprocessor.py, added here to avoid clutter.
 """
 
+from copy import deepcopy
 import json
+from math import cos, sin
 import sys
 
 from shapely.geometry import Point, Polygon
@@ -26,6 +28,7 @@ def JSON_to_dict(filepath):
             return json.load(jf)
         except:
             exit_program("Could not open JSON file")
+
 
 
 # Generic obstacle
@@ -79,3 +82,52 @@ class Polygon_obstacle(Obstacle):
 
         if not self.shapely_object.is_valid:
             sys.exit("Invalid polygon, self-intersect found")
+
+
+
+# Generates the collision matrix for a certain position
+# 0: Collision at this point (either with an obstacle or the wall)
+# 1: empty
+# checkable_vectors: Matrix containing the points where to be checked at (0, 0) with a rotation of 0
+def compute_collision_matrix(checkable_vectors, total_obstacles, xs, ys, θ, divisions_x, divisions_y):
+
+    updatable_matrix = deepcopy(checkable_vectors)
+
+    for row in range(0, divisions_x):
+        for col in range(0, divisions_y):
+
+            original_vector = checkable_vectors[row][col]
+            x_v0 = original_vector[0]
+            y_v0 = original_vector[1]
+
+            x_v1 = x_v0 + cos(θ)*x_v0 - sin(θ)*y_v0
+            y_v1 = y_v0 + sin(θ)*x_v0 + cos(θ)*y_v0
+
+            # Checks if this point collides with the wall
+            if not is_within_map(x_v1, y_v1):
+                updatable_matrix[row][col] = 0
+                continue
+
+
+            pxy = [x_v1, y_v1]
+
+            # Checks if the point collides with any object
+            for an_obstacle in total_obstacles:
+                if an_obstacle.collides_with(pxy):
+                    updatable_matrix[row][col] = 0
+                    break
+            else:
+                # No collisions
+                updatable_matrix[row][col] = 1
+
+    return updatable_matrix
+
+
+
+# Checks if a point is within the map
+def is_within_map(x, y):
+
+    within_x = (0 <= x) and (x <= 100)
+    within_y = (0 <= y) and (y <= 100)
+
+    return within_x and within_y

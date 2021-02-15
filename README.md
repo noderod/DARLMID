@@ -60,6 +60,24 @@ Action codes:
 | 3        | Turn directions      |
 
 
+To preprocess these files:
+```bash
+cd reinforcement_learning/preprocessing
+python3 preprocessor.py --datafile $JSON_INPUT_FILEPATH --output $JSON_OUTPUT_FILEPATH
+```
+
+
+
+Example:
+
+```bash
+cd reinforcement_learning/preprocessing
+python3 preprocessor.py --datafile examples/reef.json --output examples/tmp_reef_output.json
+```
+
+To show the meaning of each flag:
+
+
 ## Required software and libraries
 
 Software:
@@ -184,3 +202,4 @@ Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)
 85. https://matplotlib.org/3.1.1/gallery/lines_bars_and_markers/fill.html
 86. https://stackoverflow.com/questions/2849286/python-matplotlib-subplot-how-to-set-the-axis-range
 87. https://www.w3schools.com/python/ref_keyword_assert.asp
+88. https://stackoverflow.com/questions/26226816/argparse-making-required-flags

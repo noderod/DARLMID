@@ -95,6 +95,14 @@ for xpos in range(0, divisions_x):
         checks_V[xpos][ypos] = [checks_x[xpos], checks_y[ypos]]
 
 
+
+# Generates the map, which is always a polygon
+circuit_points = received_data["circuit"]
+circuit_polygon = aux.Polygon_obstacle(circuit_points)
+
+
+
+
 # For each point, it calculates the output matrix
 # The matrix only checks one point in particular
 # 1: Empty
@@ -102,7 +110,7 @@ for xpos in range(0, divisions_x):
 collision_data = []
 for i in range(0, num_positions):
 
-    current_collision_matrix = aux.compute_collision_matrix(checks_V, total_obstacles, player_x[i], player_y[i], angles[i], divisions_x, divisions_y)
+    current_collision_matrix = aux.compute_collision_matrix(checks_V, total_obstacles, player_x[i], player_y[i], angles[i], divisions_x, divisions_y, circuit_polygon)
     collision_data.append(current_collision_matrix)
 
 
@@ -130,6 +138,17 @@ if args.show:
     # Plot the circle borders
     ax.plot([0, 100, 100, 0, 0], [0, 0, 100, 100, 0], "k-")
 
+
+    # Shows the map
+    cx, cy = [], []
+
+    for a_point in circuit_polygon.points:
+        cx.append(a_point[0])
+        cy.append(a_point[1])
+
+    ax.fill(cx, cy, color="grey", alpha=0.5)
+
+
     # Shows the circle obstacles
     for a_co in circle_obstacles_in_map:
         tmp = plt.Circle((a_co.cx, a_co.cy), a_co.r, color="gold", clip_on=True )
@@ -154,6 +173,9 @@ if args.show:
     # Shows arrows indicating where the boat is pointing at this instant (before the action is taken)
     for i in range(0, num_positions):
         plt.arrow(player_x[i], player_y[i], math.cos(angles[i]), math.sin(angles[i]), head_width=0.8) 
+
+
+    # Shows the map
 
 
 

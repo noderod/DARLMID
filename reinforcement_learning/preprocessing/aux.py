@@ -9,7 +9,7 @@ import json
 from math import cos, sin
 import sys
 
-from shapely.geometry import Point, Polygon
+from shapely.geometry import LineString, Point, Polygon
 
 
 # Exits the program with an error message and an exit code of 1
@@ -85,13 +85,38 @@ class Polygon_obstacle(Obstacle):
 
 
 
+# Checks if a point is within the circuit
+# Inside the circuit only if the point is inside the circuit and a straight line can be traced from the current position
+# to this one
+# xy_current ->        [x, y]
+# xy_to_be_reached -> [x, y]
+def directly_reachable_in_circuit(circuit_polygon, x_current, y_current, x_to_be_reached, y_to_be_reached):
+
+    # Never reachable if it outside the circuit
+    if not circuit_polygon.collides_with([x_current, y_current]):
+        return False
+
+    # Generates a line between these two points
+    direct_connection = LineString([(x_current, y_current), (x_to_be_reached, y_to_be_reached)])
+
+    return not direct_connection.crosses(circuit_polygon.shapely_object)
+
+
+
 # Generates the collision matrix for a certain position
 # 0: Collision at this point (either with an obstacle or the wall)
 # 1: empty
 # checkable_vectors: Matrix containing the points where to be checked at (0, 0) with a rotation of 0
-def compute_collision_matrix(checkable_vectors, total_obstacles, xs, ys, θ, divisions_x, divisions_y):
+def compute_collision_matrix(checkable_vectors, total_obstacles, xs, ys, θ, divisions_x, divisions_y, circuit_polygon):
 
     updatable_matrix = deepcopy(checkable_vectors)
+
+
+    # Current location is always at the center
+    car_location = original_vector = checkable_vectors[divisions_x//2][divisions_y//2]
+    x_car = car_location[0]
+    y_car = car_location[1]
+
 
     for row in range(0, divisions_x):
         for col in range(0, divisions_y):
@@ -108,8 +133,12 @@ def compute_collision_matrix(checkable_vectors, total_obstacles, xs, ys, θ, div
                 updatable_matrix[row][col] = 0
                 continue
 
-
             pxy = [x_v1, y_v1]
+
+            # Invalid if the object is not within the circuit or it collides when reaching the circuit
+            if not directly_reachable_in_circuit(circuit_polygon, x_car, y_car, x_v1, y_v1):
+                updatable_matrix[row][col] = 0
+                continue
 
             # Checks if the point collides with any object
             for an_obstacle in total_obstacles:

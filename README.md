@@ -203,3 +203,5 @@ Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)
 86. https://stackoverflow.com/questions/2849286/python-matplotlib-subplot-how-to-set-the-axis-range
 87. https://www.w3schools.com/python/ref_keyword_assert.asp
 88. https://stackoverflow.com/questions/26226816/argparse-making-required-flags
+89. https://shapely.readthedocs.io/en/stable/manual.html
+90. https://gis.stackexchange.com/questions/95670/creating-shapely-linestring-from-two-points

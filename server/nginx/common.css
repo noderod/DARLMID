@@ -31,26 +31,30 @@ body {
 /*Top navigation bar requirements*/
 .navbar {
   width: 100%;
-  background-color: SteelBlue;
+  background-color: MidnightBlue;
 }
 
 .navbar a.element {
   float: left;
-  color: Snow;
+  color: White;
   text-align: center;
   padding: 0.65vw 0.65vw;
   width: 9%;
+  transition: 0.8s; /*Transition time when hovering*/
 }
 
 .navbar a.element:hover {
-  background-color: Snow;
-  color: SlateGrey;
+  background-color: MediumBlue;
 }
 
 /*Specific Login element*/
 .navbar a.login {
   float: left;
-  background-color: DarkBlue;
+  background-color: Black;
+}
+
+.navbar a.login:hover {
+  background-color: DarkSlateGray;
 }
 
 /*Specific Sign-up element*/
@@ -58,7 +62,9 @@ body {
   float: left;
   background-color: DarkRed;
 }
-
+.navbar a.signup:hover {
+  background-color: Brown;
+}
 
 /*Gradient background that occupies the entire div, used for sign-up and login pages.*/
 .full_bakground_sign_up__login {

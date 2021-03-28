@@ -113,8 +113,8 @@ make teardown
 Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)) licensed under the terms of the Apache 2 licensed, available in this project [here](/licenses/LICENSE-2.0.txt) and also originally [here](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
-The [stranded car in the desert image](./server/nginx/images/car_desert_transparent.png) was originally obtained from Wikimedia at [https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg), the license
-and other resolutions are available at [https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg](https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg). This image was licensed under the Creative Commons Attribution-Share Alike 4.0 International
+The [stranded car in the desert image](./server/nginx/images/car_desert_transparent.png) was originally obtained from Wikimedia at [https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg) and created by
+*Leijurv*, the license and other image resolutions are available at [https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg](https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg). This image was licensed under the Creative Commons Attribution-Share Alike 4.0 International
 license, a link to which is provided [here](https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg).
 The only changes made where making part of the sky transparent and cropping a circle which encompasses the car into another image. 
 

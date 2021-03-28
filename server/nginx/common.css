@@ -48,7 +48,18 @@ body {
 .navbar {
   width: 100%;
   background-color: MidnightBlue;
+  max-height: 8vh;
 }
+
+
+.navbar logo_element {
+  width: 15%;
+}
+
+.navbar empty_element {
+  width: 40%;
+}
+
 
 .navbar a.element {
   float: left;
@@ -57,6 +68,7 @@ body {
   padding: 0.65vw 0.65vw;
   width: 9%;
   transition: 0.8s; /*Transition time when hovering*/
+  text-decoration: none; /*No decoration*/
 }
 
 .navbar a.element:hover {
@@ -111,6 +123,17 @@ body {
   width: 80%;
 }
 
+
+/*Answered questions section in index.html*/
+.index_aq {
+  width: 100%;
+  background-color: MidnightBlue;
+  color: White;
+}
+
+.index_aq a {
+  color: Tomato;
+}
 
 /*Gradient background that occupies the entire div, used for sign-up and login pages.*/
 .full_bakground_sign_up__login {

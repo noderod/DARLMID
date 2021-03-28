@@ -11,7 +11,7 @@ within this repository [here](./SPlide_MIT.txt).
 1. The [*stranded car in the desert image*](../server/nginx/images/car_desert_transparent.png) was originally obtained from Wikimedia at [https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg) and created by
 *Leijurv*, the license and other image resolutions are available at [https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg](https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg). This image was licensed under the Creative Commons Attribution-Share Alike 4.0 International
 license, a link to which is provided [here](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
-The only changes made where making part of the sky transparent and cropping a circle which encompasses the car into another image. 
+The only change made was cropping a circle which encompasses the car into another image. 
 
 2. The [*river with forest in the background*](https://commons.wikimedia.org/wiki/File:Storsj%C3%B6n_i_Vindelns_kommun.jpg) image was obtained from WIkimedia commons, licensed under the Creative Commons CC0 1.0 Universal Public Domain Dedication. The actual image used is provided [here](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Storsj%C3%B6n_i_Vindelns_kommun.jpg/1280px-Storsj%C3%B6n_i_Vindelns_kommun.jpg),
 its author is shown as *Askan error*.

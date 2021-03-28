@@ -22,11 +22,12 @@ services:
     command: "sleep infinity"
     environment:
       - MAIN_NODE_URL
+      - REDIS_HOST
+      - REDIS_PASSWORD
       - POSTGRES_URL
       - POSTGRES_USER
       - POSTGRES_PASSWORD
       - POSTGRES_DB
-      - REDIS_PASSWORD
       - R_USERNAME
       - R_PASSWORD
       - RW_USERNAME

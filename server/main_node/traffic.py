@@ -88,45 +88,6 @@ async def action_sign_up(request):
     return web.json_response({"Output": "Success"})
 
 
-
-# Gets the sign-up data
-async def action_sign_up(request):
-    
-    # Sign-up action GET is not allowed, redirect to sign up
-    if request.method == "GET":
-        raise web.HTTPFound('/sign_up')
-
-    # If it fails, return a failure
-    try:
-        received_sign_up_data = await request.json()
-    except:
-        raise web.HTTPUnprocessableEntity()
-
-    # Ensures that all JSON data inputs contain:
-    # username, password, agreed to TOS
-    necessary_fields = ["username", "password", "agreed to TOS"]
-    if not check_keys_in_dict(received_sign_up_data, necessary_fields):
-        return web.json_response({"Missing keys": ", ".join(missing_keys_in_dict(received_sign_up_data, necessary_fields))})
-
-    username = sanitize_str_for_HTML(received_sign_up_data["username"])
-    password = sanitize_str_for_HTML(received_sign_up_data["password"])
-    agreed_to_TOS = received_sign_up_data["agreed to TOS"]
-
-    if agreed_to_TOS != "yes":
-        return web.json_response({"Output": "Failure", "Cause": "Must agree to Terms & Conditions"})
-
-
-    # Verify if user already exists
-    if username_in_db(username):
-        return web.json_response({"Output": "Failure", "Cause": "User already exists"})
-
-    # Adds user data to PostgreSQL
-    create_new_user(username, password)
-
-    # Return a JSON object with {username, cookie_ID}
-    return web.json_response({"Output": "Success"})
-
-
 # Logins a user
 async def action_login(request):
     

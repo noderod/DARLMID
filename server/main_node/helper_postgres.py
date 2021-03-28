@@ -94,9 +94,15 @@ def verify_username_password(given_username, given_password):
     # Obtains the salt
     cur.execute("SELECT salt, password FROM user_data WHERE username=%s", (given_username,))
 
-    salt, stored_salted_password = cur.fetchone()
-    salted_password = salt_password(given_password, salt)
+    obtained_result = cur.fetchone()
 
     con.close()
+
+
+    if obtained_result == None:
+        return False
+
+    salt, stored_salted_password = obtained_result
+    salted_password = salt_password(given_password, salt)
 
     return stored_salted_password == salted_password

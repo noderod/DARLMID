@@ -66,6 +66,25 @@ body {
   background-color: Brown;
 }
 
+
+/*index.html first table, with white text to the left and a picture to the right*/
+.index_first_element {
+  width: 100%;
+  color: White;
+  background-image: linear-gradient(to right, MidnightBlue , DarkSlateGrey);
+}
+
+.index_first_element_tr_text {
+  padding: 5%;
+  width: 50%;
+}
+
+.index_first_element_tr_image {
+  padding: 2.5%;
+  width: 50%;
+}
+
+
 /*Gradient background that occupies the entire div, used for sign-up and login pages.*/
 .full_bakground_sign_up__login {
   background-image: linear-gradient(GhostWhite, LightCyan);

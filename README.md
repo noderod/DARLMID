@@ -1,13 +1,13 @@
-# Expert-SEAS
+# DARLMID
 
-Expert-Guided ML for 2D ship piloting
+Expert-Guided ML for 2D car driving trained under intentionally poor demonstrations.
 
 
 
 ## Objective
 
-To use experts (humans, most likely, although not necessarily) in order to train a neural network in piloting in ship without crashing.
-The expert piloting data is expected to lead to an output that ressembles' the pilot.
+To use experts (humans, most likely, although not necessarily) in order to train a neural network in driving a car without crashing, providing
+only intentionally poor driving demonstrations.
 
 
 ## Development History

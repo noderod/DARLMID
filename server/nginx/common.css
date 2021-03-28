@@ -85,6 +85,13 @@ body {
 }
 
 
+.index_how_it_works {
+  background-color: Gainsboro;
+  padding: 2%;
+}
+
+
+
 /*Gradient background that occupies the entire div, used for sign-up and login pages.*/
 .full_bakground_sign_up__login {
   background-image: linear-gradient(GhostWhite, LightCyan);

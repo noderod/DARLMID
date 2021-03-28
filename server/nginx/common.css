@@ -27,6 +27,22 @@ body {
   align-items: center;
 }
 
+/*Centers the text within a div*/
+.center_aligned_text {
+  text-align: center;
+}
+
+
+/*Intended for images which are to be faded in*/
+.standard_opacity_img {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.standard_opacity_img[alpha0] {
+  opacity: 0;
+}
+
 
 /*Top navigation bar requirements*/
 .navbar {
@@ -85,11 +101,15 @@ body {
 }
 
 
-.index_how_it_works {
+.index_23 {
   background-color: Gainsboro;
   padding: 2%;
 }
 
+/*Each splide slide inner div is allowed to occupy only 80% of the available width*/
+.slide_within_splide {
+  width: 80%;
+}
 
 
 /*Gradient background that occupies the entire div, used for sign-up and login pages.*/

@@ -110,13 +110,8 @@ make teardown
 
 ## Licensing
 
-Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)) licensed under the terms of the Apache 2 licensed, available in this project [here](/licenses/LICENSE-2.0.txt) and also originally [here](http://www.apache.org/licenses/LICENSE-2.0.txt).
-
-
-The [stranded car in the desert image](./server/nginx/images/car_desert_transparent.png) was originally obtained from Wikimedia at [https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg](https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Car_in_Black_Rock_Desert.jpg/1280px-Car_in_Black_Rock_Desert.jpg) and created by
-*Leijurv*, the license and other image resolutions are available at [https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg](https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg). This image was licensed under the Creative Commons Attribution-Share Alike 4.0 International
-license, a link to which is provided [here](https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg).
-The only changes made where making part of the sky transparent and cropping a circle which encompasses the car into another image. 
+Parts of this project utilize software and images which are licensed under different conditions. An overview of these materials, licenses,
+and conditions is provided in the [licenses](./licenses) subdirectory.
 
 
 ## References
@@ -215,3 +210,11 @@ The only changes made where making part of the sky transparent and cropping a ci
 92. https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table
 93. https://commons.wikimedia.org/wiki/File:Car_in_Black_Rock_Desert.jpg
 94. https://smallbusiness.chron.com/crop-circle-out-picture-gimp-36366.html
+95. https://splidejs.com/getting-started/
+96. https://www.w3schools.com/tags/att_script_defer.asp
+97. https://splidejs.com/
+98. https://stackoverflow.com/questions/15121343/how-to-center-a-p-element-inside-a-div-container
+99. https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Storsj%C3%B6n_i_Vindelns_kommun.jpg/1280px-Storsj%C3%B6n_i_Vindelns_kommun.jpg
+100. https://web.dev/browser-level-image-lazy-loading/
+101. https://davidwalsh.name/lazyload-image-fade
+102. https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute

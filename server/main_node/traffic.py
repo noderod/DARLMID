@@ -1,5 +1,5 @@
 """
-BASICS
+SUMMARY
 
 Directs TCP traffic and executes the appropriate commands or returning the correct file
 """
@@ -13,14 +13,22 @@ from helper_postgres import *
 
 
 # Checks if the user is logged-in via cookie
-def is_logged_in(request):
-    return "expert_seas" in request.cookies
+async def is_logged_in(request):
+    if "DARLMID_key" not in request.cookies:
+        return False
+    else:
+        # Verify the key's contents
+        DARLMID_key = request.cookies["DARLMID_key"]
+        return await verify_cookie_key(DARLMID_key)
 
 
 
 
 # Serves Index (main HTML file)
 async def index(request):
+
+    if await is_logged_in(request):
+        return web.FileResponse('/expert_seas/html/index_logged_in.html')
 
     # Non-logged-in index
     return web.FileResponse('/expert_seas/html/index.html')
@@ -31,7 +39,7 @@ async def index(request):
 async def sign_up(request):
 
     # Logged-in, redirect to /
-    if is_logged_in(request):
+    if await is_logged_in(request):
         raise web.HTTPFound("/")
 
     # Non-logged-in sign-up
@@ -42,12 +50,30 @@ async def sign_up(request):
 async def login(request):
 
     # Logged-in, redirect to /
-    if is_logged_in(request):
+    if await is_logged_in(request):
         raise web.HTTPFound("/")
 
     # Non-logged-in login
     return web.FileResponse('/expert_seas/html/login.html')
 
+
+# Logout page
+async def logout(request):
+    # Not logged-in, redirect to /login
+    if not (await is_logged_in(request)):
+        raise web.HTTPFound("/login")
+
+    # Logged-in, logout user
+    web_response = web.HTTPFound("/login")
+
+    # Delete the cookie
+    web_response.del_cookie("DARLMID_key", domain = os.environ["MAIN_NODE_URL"])
+    # Delete the local copy in Redis
+    DARLMID_key = request.cookies["DARLMID_key"]
+    await delete_cookie_key(DARLMID_key)
+
+    # Return to login
+    raise web_response
 
 
 # Gets the sign-up data
@@ -113,13 +139,35 @@ async def action_login(request):
     # Verify username-password combinations
     if verify_username_password(username, password):
 
+        # Generates a record in Redis
+        obtained_key_ID = generate_key_identifier()
+
+        cookie_max_age = 10000 # s
+
+        # Generates a server record of the cookie in Redis, to verify it
+        await generate_cookie_record(obtained_key_ID, username, cookie_max_age)
+
         web_response = web.json_response({"Output": "Success"})
         # Generates a cookie containing the username
-        web_response.set_cookie("expert_seas", username, domain = os.environ["MAIN_NODE_URL"])
+        web_response.set_cookie("DARLMID_key", obtained_key_ID, domain = os.environ["MAIN_NODE_URL"], max_age = int(cookie_max_age))
         # Return a JSON object with {username, cookie_ID}
         return web_response
     else:
         return web.json_response({"Output": "Failure", "Cause": "Cannot login"})
+
+
+# Obtain's all the user information for the session as stored in Redis
+async def action_user_session_info(request):
+
+    # Not logged-in, redirect to /login
+    if not (await is_logged_in(request)):
+        web_response = web.json_response({})
+        return web_response
+
+    # Retrieves information
+    obtained_session_info = await get_user_session_info(request.cookies["DARLMID_key"])
+    web_response = web.json_response(obtained_session_info)
+    return web_response
 
 
 # Redirects to custom 404 page
@@ -177,6 +225,13 @@ expert_seas_web_app.router.add_post("/sign_up_action", action_sign_up)
 # Login action
 expert_seas_web_app.router.add_get("/login_action", action_login)
 expert_seas_web_app.router.add_post("/login_action", action_login)
+
+# Logout
+expert_seas_web_app.router.add_get("/logout", logout)
+expert_seas_web_app.router.add_get("/logout.html", logout)
+
+# Obtaining user's information
+expert_seas_web_app.router.add_get("/user_info", action_user_session_info)
 
 
 # Error handling

@@ -14,7 +14,7 @@ function resize_middle_div() {
   let total_window_height = window.innerHeight;
 
   // Gets the navbar and footer's heights
-  let navbar_height = document.getElementById("navbar element").offsetHeight;
+  let navbar_height = document.getElementById("navbar item").offsetHeight;
   let footer_height = document.getElementById("standard footer").offsetHeight;
 
   // 0 size if already occupying the entire page

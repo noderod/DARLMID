@@ -218,3 +218,10 @@ and conditions is provided in the [licenses](./licenses) subdirectory.
 100. https://web.dev/browser-level-image-lazy-loading/
 101. https://davidwalsh.name/lazyload-image-fade
 102. https://developer.mozilla.org/en-US/docs/Web/API/Element/removeAttribute
+103. Asked some of Carlos' friends for feedback on the front-end's look
+104. https://stackoverflow.com/questions/534839/how-to-create-a-guid-uuid-in-python
+105. https://aioredis.readthedocs.io/en/v1.3.0/examples.html
+106. https://aioredis.readthedocs.io/en/v1.3.0/mixins.html
+107. https://aioredis.readthedocs.io/en/v1.3.0/api_reference.html
+108. https://redis.io/commands/expire
+109. https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_script_async

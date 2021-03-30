@@ -52,11 +52,11 @@ body {
 }
 
 
-.navbar logo_element {
+.navbar a.logo_element {
   width: 15%;
 }
 
-.navbar empty_element {
+.navbar_empty_element {
   width: 40%;
 }
 
@@ -75,7 +75,7 @@ body {
   background-color: MediumBlue;
 }
 
-/*Specific Login element*/
+/*Specific Login/Profile element*/
 .navbar a.login {
   float: left;
   background-color: Black;
@@ -88,12 +88,21 @@ body {
 /*Specific Sign-up element*/
 .navbar a.signup {
   float: left;
-  background-color: DarkRed;
+  background-color: DarkGreen;
 }
 .navbar a.signup:hover {
-  background-color: Brown;
+  background-color: Green;
 }
 
+/*Specific Logout element*/
+.navbar a.logout {
+  float: left;
+  background-color: DarkRed;
+}
+
+.navbar a.logout:hover {
+  background-color: Brown;
+}
 
 /*index.html first table, with white text to the left and a picture to the right*/
 .index_first_element {

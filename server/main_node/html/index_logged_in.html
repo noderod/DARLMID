@@ -5,32 +5,139 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="icon" href="/images/DARLMID_icon.png">
-    <script type="text/javascript" src="/js/common.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.mjs">import Cookies from 'js-cookie';</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
+
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script type="text/javascript" src="/js/initialize_splide.js" defer></script>
   </head>
 
   <body>
+
     <div class="center-x navbar">
-      <a href="/" style="width: 55%;"></a>
-      <a class="element" href="/">Home</a>
-      <a class="element" href="/about_us">About Us</a>
-      <a class="element" href="/documentation">Documentation</a>
-      <a class="element login" href="/profile" id="username">Profile</a>
-      <a class="element signup" href="/logout">Logout</a>
+      <a class="logo_element center-y" href="/"><img src="/images/DARLMID_icon.png" height="100%"></a>
+      <div class="navbar_empty_element"></div>
+      <a class="element center-xy" href="/">Home</a>
+      <a class="element center-xy" href="/about_us">About Us</a>
+      <a class="element center-xy" href="/documentation">Documentation</a>
+      <a class="element center-xy login" href="/profile" id="profile a">Profile</a>
+      <a class="element center-xy logout" href="/logout">Logout</a>
     </div>
 
-    <div class="full_width" id="middle div">
-      
+    <script type="text/javascript" async>
+      replace_profile_by_username();
+    </script>
 
+    <div class="center-xy index_first_element">
+      <table class="full_width">
+        <tr>
+          <td class="index_first_element_tr_text">
+            <div class="center-x">
+              <div>
+                <h3>
+                  DARLMID is a complete reinforcement learning scenario in-a-box, designed to rapidly allow researchers to process user demonstrations and utilize them towards training an autonomous driving agent within a 2D environment.
+                </h3>
+                <p>
+                  In contrast to other RL experiments and frameworks, DARLMID evaluates demonstration quality to filter and better utilize
+                  malicious and/or incompetent demonstrations in order to improve an agent's learning rate in a varietry of circumstances.
+                </p>
+              </div>
+            </div>
+          </td>
 
-
+          <td class="index_first_element_tr_image">
+            <div class="center-x">
+              <img src="/images/car_desert_transparent.png" alt="Car stranded in the desert" width="80%">
+            </div>
+          </td>
+        </tr>
+      </table>
     </div>
+
+
+    <div class="splide index_23">
+      <div class="splide__track">
+        <ul class="splide__list">
+          <li class="splide__slide">
+            <div class="center-x">
+              <div class="center_aligned_text">
+                <div class="center-x">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Storsj%C3%B6n_i_Vindelns_kommun.jpg/1280px-Storsj%C3%B6n_i_Vindelns_kommun.jpg" alt="river with forest in the background" width="50%" loading=lazy class="standard_opacity_img" onload="this.removeAttribute('alpha0')" alpha0="True">
+                </div>
+                <p>DARLMID allows you to simply provide the demonstrations without worrying about incompetent demonstrations or fraudulent users.</p>
+              </div>
+            </div>
+          </li>
+
+          <li class="splide__slide">
+            <div class="center-x">
+              <div class="center_aligned_text">
+                <div class="center-x">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Tire_tracks_and_cracks_on_the_road_used_for_ice_fishing_on_Fishhook_Lake%2C_Park_Rapids_MN.jpg/1280px-Tire_tracks_and_cracks_on_the_road_used_for_ice_fishing_on_Fishhook_Lake%2C_Park_Rapids_MN.jpg" alt="tire tracks on ice" width="50%" loading=lazy class="standard_opacity_img" onload="this.removeAttribute('alpha0')" alpha0="True">
+                </div>
+                <p>DARLMID allows you to track user feedback and evaluate, you can also automatically weight which user's demonstrations should be filtered or corrected.</p>
+              </div>
+            </div>
+          </li>
+
+          <li class="splide__slide">
+            <div class="center-x">
+              <div class="center_aligned_text">
+                <div class="center-x">
+                  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Male_greater_frigate_bird_building_nest.jpg/1280px-Male_greater_frigate_bird_building_nest.jpg" alt="male greater frigate building nest" width="50%" loading=lazy class="standard_opacity_img" onload="this.removeAttribute('alpha0')" alpha0="True">
+                </div>
+                <p>Utilize DARLMID to build better driving agents, trained from both correct and incorrect (either malicious or incompetent) demonstrations.</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div class="center-xy index_23">
+      <div>
+        <h2>How it works</h2>
+        <br>
+        <p>
+          Many reinforcement learning (RL) projects utilize demonstrations provided by humans in order to increase the learning rate of an
+        agent. However, the implicit assumption is that the expert giving the demonstration is providing a correct set of actions, even if
+        these are suboptimal.
+        </p>
+        <p>
+          In contrast, DARLMID makes an assumption that the user is providing malicious or incompetent instructions at some or all points.
+        </p>
+        <p>
+          NOTE: DARLMID is still in the development stage. As such, some functionality may be missing. This program should not be utilized
+          in its current condition without modification. It is possible that some features presented in this page may be missing from the finalozed software.
+        </p>
+      </div>
+    </div>
+
+
+    <div class="center-x index_aq">
+      <div>
+        <div class="center-x">
+          <h2>Answered Questions</h2>
+        </div>
+
+        <ul>
+          <li>
+            <u>Is it free?</u>
+            <br>
+            Yes, DARLMID is completely free to use, the source code is available on <a href="https://github.com/noderod/DARLMID">GitHub</a>.
+          </li>
+        </ul>
+      </div>
+    </div>
+
 
 
     <div class="footer">
       <div class="thin_horizontal_line_CornFlowerBlue"></div>
       <p>Copyright: Carlos Redondo Albertos, 2021</p>
     </div>
+
   </body>
 </html>

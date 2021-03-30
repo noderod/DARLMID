@@ -35,6 +35,13 @@ function clear_div_contents(element_ID) {
 
 
 
+// Replaces the html content of an element by ID (div or otherwise by a new content)
+// content_new (str)
+function replace_element_HTML_contents(element_ID, content_new) {
+  document.getElementById(element_ID).innerHTML = content_new;
+}
+
+
 // Creates an error message
 // It always has the structure:
 // TITLE (centered)
@@ -158,4 +165,23 @@ async function POST_JSON_return_JSON(given_url, to_be_posted) {
 
   const result = await POST_request.json();
   return result;
+}
+
+
+
+// Gets JSON from a GET requests to a certain URL
+async function GET_JSON(given_url) {
+  const GET_request = await fetch(given_url, {
+      method: "GET",
+  });
+
+  const result = await GET_request.json();
+  return result;
+}
+
+
+// Replaces the username
+async function replace_profile_by_username() {
+  let user_session_info = await GET_JSON("/user_info");
+  replace_element_HTML_contents("profile a", user_session_info["username"]);
 }

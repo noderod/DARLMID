@@ -225,3 +225,9 @@ and conditions is provided in the [licenses](./licenses) subdirectory.
 107. https://aioredis.readthedocs.io/en/v1.3.0/api_reference.html
 108. https://redis.io/commands/expire
 109. https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_script_async
+110. https://wiki.freecadweb.org/Topological_data_scripting
+111. https://json2html.com/
+112. https://json2html.com/examples/
+113. https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object
+114. https://api.jquery.com/jQuery.isEmptyObject/
+115. https://code.jquery.com/

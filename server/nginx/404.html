@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>404: Not Found</title>
+    <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
-    <link rel="icon" href="/images/expert_seas_icon.png">
-    <script type="text/javascript" src="/js/404_resizer.js" defer></script>
+    <link rel="icon" href="/images/DARLMID_icon.png">
+    <script type="text/javascript" src="/js/404_resizer.js"></script>
+    <script type="text/javascript" src="/js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.0.0/json2html.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="crossorigin="anonymous"></script>
   </head>
 
-  <body onresize="resize_appropriately()">
+  <body>
 
-    <div class="center-x navbar">
-      <a href="/" style="width: 55%;"></a>
-      <a class="element" id="navbar element" href="/">Home</a>
-      <a class="element" href="/about_us">About Us</a>
-      <a class="element" href="/pricing">Pricing</a>
-      <a class="element login" href="/login">Login</a>
-      <a class="element signup" href="/sign_up">Sign-Up</a>
-    </div>
+    <script type="text/javascript" async defer>
+      startup_generation();
+    </script>
+
+    <div class="center-x navbar" id="navbar item"></div>
 
     <div class="center-xy" id="404_message">
       <p style="font-size:450%">404</p>

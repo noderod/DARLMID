@@ -2,9 +2,15 @@
 
 Parts of this project use libraries ([bleach](https://github.com/mozilla/bleach)) licensed under the terms of the Apache 2 licensed, available in this project [here](./LICENSE-2.0.txt) and also originally [here](http://www.apache.org/licenses/LICENSE-2.0.txt).
 
-The [splide](https://github.com/Splidejs/splide) JS library was used in order to generate slideshows, which was obtained through an
+The [splide](https://github.com/Splidejs/splide) JS library was used in order to generate slideshows. It was obtained through an
 MIT license. A copy of its MIT licensed can be obtained [here](https://github.com/Splidejs/splide). A copy of this license is also provided
 within this repository [here](./SPlide_MIT.txt).
+
+The [json2html](https://www.json2html.com/) JS library was used in order to generate HTML code from JSON. It was obtained through an
+MIT license. A copy of its MIT licensed can be obtained [here](https://github.com/moappi/json2html/blob/master/LICENSE). A copy of this license is also provided within this repository [here](./SPlide_MIT.txt).
+
+
+https://github.com/moappi/json2html
 
 ### Images
 

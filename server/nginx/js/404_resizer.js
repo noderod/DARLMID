@@ -32,7 +32,8 @@ async function generate_navbar() {
                         {"<>":"a", "class":"logo_element center-y", "href":"/", "html":[
                           {"<>":"img", "alt":"logo", 'src':"/images/DARLMID_icon.png", "class":"logo_element center-y", "height":"100%"}
                         ]},
-                        {"<>":"div", "class":"navbar_empty_element"},
+                        {"<>":"div", "class":"navbar_empty_element_loggedin"},
+                        {"<>":"a", "class":"driving_element center-xy", "href":"/driving", "text":"Driving RL"},
                         {"<>":"a", "class":"element center-xy", "href":"/", "text":"Home"},
                         {"<>":"a", "class":"element center-xy", "href":"/about_us", "text":"About Us"},
                         {"<>":"a", "class":"element center-xy", "href":"/documentation", "text":"Documentation"},

@@ -60,6 +60,25 @@ body {
   width: 40%;
 }
 
+.navbar_empty_element_loggedin {
+  width: 20%;
+}
+
+/*Specific driving element*/
+.navbar a.driving_element {
+  float: left;
+  color: White;
+  text-align: center;
+  padding: 0.65vw 0.65vw;
+  width: 20%;
+  transition: 0.8s; /*Transition time when hovering*/
+  text-decoration: none; /*No decoration*/
+}
+
+.navbar a.driving_element:hover {
+  background-color: MediumBlue;
+}
+
 
 .navbar a.element {
   float: left;
@@ -97,18 +116,18 @@ body {
 /*Specific Logout element*/
 .navbar a.logout {
   float: left;
-  background-color: DarkRed;
+  background-color: SlateGray;
 }
 
 .navbar a.logout:hover {
-  background-color: Brown;
+  background-color: Silver;
 }
 
 /*index.html first table, with white text to the left and a picture to the right*/
 .index_first_element {
   width: 100%;
   color: White;
-  background-image: linear-gradient(to right, MidnightBlue , DarkSlateGrey);
+  background-color: MidnightBlue;
 }
 
 .index_first_element_tr_text {

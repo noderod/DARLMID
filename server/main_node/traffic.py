@@ -28,10 +28,20 @@ async def is_logged_in(request):
 async def index(request):
 
     if await is_logged_in(request):
-        return web.FileResponse('/expert_seas/html/index_logged_in.html')
+        return web.FileResponse('/DARLMID/html/index_logged_in.html')
 
     # Non-logged-in index
-    return web.FileResponse('/expert_seas/html/index.html')
+    return web.FileResponse('/DARLMID/html/index.html')
+
+
+# Serves the driving page to train the driving agent based on demonstrations
+async def driving(request):
+
+    if await is_logged_in(request):
+        return web.FileResponse('/DARLMID/html/driving.html')
+
+    # Non-logged-in index
+    raise web.HTTPFound("/")
 
 
 
@@ -43,7 +53,7 @@ async def sign_up(request):
         raise web.HTTPFound("/")
 
     # Non-logged-in sign-up
-    return web.FileResponse('/expert_seas/html/sign_up.html')
+    return web.FileResponse('/DARLMID/html/sign_up.html')
 
 
 # Login page
@@ -54,7 +64,7 @@ async def login(request):
         raise web.HTTPFound("/")
 
     # Non-logged-in login
-    return web.FileResponse('/expert_seas/html/login.html')
+    return web.FileResponse('/DARLMID/html/login.html')
 
 
 # Logout page
@@ -202,42 +212,45 @@ def setup_middlewares(app):
     app.middlewares.append(error_middleware)
 
 
-expert_seas_web_app = web.Application()
+DARLMID_web_app = web.Application()
 
 # Main index
-expert_seas_web_app.router.add_get("/", index)
-expert_seas_web_app.router.add_get("/index", index)
-expert_seas_web_app.router.add_get("/index.html", index)
+DARLMID_web_app.router.add_get("/", index)
+DARLMID_web_app.router.add_get("/index", index)
+DARLMID_web_app.router.add_get("/index.html", index)
 
 # Sign-Up
-expert_seas_web_app.router.add_get("/sign_up", sign_up)
-expert_seas_web_app.router.add_get("/sign_up.html", sign_up)
+DARLMID_web_app.router.add_get("/sign_up", sign_up)
+DARLMID_web_app.router.add_get("/sign_up.html", sign_up)
 
 # Login
-expert_seas_web_app.router.add_get("/login", login)
-expert_seas_web_app.router.add_get("/login.html", login)
+DARLMID_web_app.router.add_get("/login", login)
+DARLMID_web_app.router.add_get("/login.html", login)
 
 
 # Sign-up action
-expert_seas_web_app.router.add_get("/sign_up_action", action_sign_up)
-expert_seas_web_app.router.add_post("/sign_up_action", action_sign_up)
+DARLMID_web_app.router.add_get("/sign_up_action", action_sign_up)
+DARLMID_web_app.router.add_post("/sign_up_action", action_sign_up)
 
 # Login action
-expert_seas_web_app.router.add_get("/login_action", action_login)
-expert_seas_web_app.router.add_post("/login_action", action_login)
+DARLMID_web_app.router.add_get("/login_action", action_login)
+DARLMID_web_app.router.add_post("/login_action", action_login)
 
 # Logout
-expert_seas_web_app.router.add_get("/logout", logout)
-expert_seas_web_app.router.add_get("/logout.html", logout)
+DARLMID_web_app.router.add_get("/logout", logout)
+DARLMID_web_app.router.add_get("/logout.html", logout)
 
 # Obtaining user's information
-expert_seas_web_app.router.add_get("/user_info", action_user_session_info)
+DARLMID_web_app.router.add_get("/user_info", action_user_session_info)
+
+# Driving, training an RL agent through demonstrations
+DARLMID_web_app.router.add_get("/driving", driving)
 
 
 # Error handling
-setup_middlewares(expert_seas_web_app)
+setup_middlewares(DARLMID_web_app)
 
 # To be run with gunicorn using
 # -w (num cores + 1)
 # main_node -> Docker container
-# gunicorn traffic:expert_seas_web_app --bind main_node:8080 --worker-class aiohttp.GunicornWebWorker -w 5
+# gunicorn traffic:DARLMID_web_app --bind main_node:8080 --worker-class aiohttp.GunicornWebWorker -w 5

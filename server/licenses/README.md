@@ -7,10 +7,12 @@ MIT license. A copy of its MIT licensed can be obtained [here](https://github.co
 within this repository [here](./SPlide_MIT.txt).
 
 The [json2html](https://www.json2html.com/) JS library was used in order to generate HTML code from JSON. It was obtained through an
-MIT license. A copy of its MIT licensed can be obtained [here](https://github.com/moappi/json2html/blob/master/LICENSE). A copy of this license is also provided within this repository [here](./SPlide_MIT.txt).
+MIT license. A copy of its MIT licensed can be obtained [here](https://github.com/moappi/json2html/blob/master/LICENSE). A copy of this license is also provided within this repository [here](./json2html_MIT.txt).
+
+The [jQuery](https://openjsf.org/) JS library was used in multiple parts of the project. It was obtained through an
+MIT license. A copy of its MIT licensed can be obtained [here](https://github.com/jquery/jquery/blob/main/LICENSE.txt). A copy of this license is also provided within this repository [here](./jQuery_MIT.txt).
 
 
-https://github.com/moappi/json2html
 
 ### Images
 
@@ -19,7 +21,7 @@ https://github.com/moappi/json2html
 license, a link to which is provided [here](https://creativecommons.org/licenses/by-sa/4.0/deed.en).
 The only change made was cropping a circle which encompasses the car into another image. 
 
-2. The [*river with forest in the background*](https://commons.wikimedia.org/wiki/File:Storsj%C3%B6n_i_Vindelns_kommun.jpg) image was obtained from WIkimedia commons, licensed under the Creative Commons CC0 1.0 Universal Public Domain Dedication. The actual image used is provided [here](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Storsj%C3%B6n_i_Vindelns_kommun.jpg/1280px-Storsj%C3%B6n_i_Vindelns_kommun.jpg),
+2. The [*river with forest in the background*](https://commons.wikimedia.org/wiki/File:Storsj%C3%B6n_i_Vindelns_kommun.jpg) image was obtained from Wikimedia commons, licensed under the Creative Commons CC0 1.0 Universal Public Domain Dedication. The actual image used is provided [here](https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Storsj%C3%B6n_i_Vindelns_kommun.jpg/1280px-Storsj%C3%B6n_i_Vindelns_kommun.jpg),
 its author is shown as *Askan error*.
 No changes were made. 
 
@@ -32,4 +34,8 @@ No changes were made.
 *Charles James Sharp*, the license and other image resolutions are available at [https://commons.wikimedia.org/wiki/File:Male_greater_frigate_bird_building_nest.jpg](https://commons.wikimedia.org/wiki/File:Male_greater_frigate_bird_building_nest.jpg).
 This image was licensed under the Creative Commons Attribution-Share Alike 3.0 Unported license, a link to which is provided [here](https://creativecommons.org/licenses/by-sa/3.0/deed.en).
 The only changes made where making part of the sky transparent and cropping a circle which encompasses the car into another image.
+No changes were made. 
+
+5. The [*Le Mans 1923*](https://commons.wikimedia.org/wiki/File:LeMans_1923.jpg) image was obtained from Wikimedia commons, this image is in the public domain. The actual image used is provided [here](https://upload.wikimedia.org/wikipedia/commons/3/38/LeMans_1923.jpg),
+its source is shown as *D.A.S. (Germany)*.
 No changes were made. 

@@ -265,10 +265,54 @@ body {
   width: 100%;
 }
 
+.half_width {
+  width: 50%;
+}
+
+
+.driving_select {
+  width: 100%;
+  background-image:url("https://upload.wikimedia.org/wikipedia/commons/3/38/LeMans_1923.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 4vh;
+  padding-bottom: 4vh;
+}
+
+
+.driving_select_box {
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  padding-left: 2vw;
+  padding-right: 2vw;
+  border-radius: 25px;
+  border: 3px solid Black;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: White;
+}
+
+
+.process_driving_conditions {
+  text-align: center;
+  color: White;
+  background-color: Black;
+  border: none;
+  transition: 0.8s;
+  opacity: 1;
+  padding: 1vw;
+}
+
+.process_driving_conditions:hover {
+  background-color: Gray;
+}
+
+
 
 /*Thin horizontal line, useful for separations*/
 .thin_horizontal_line_CornFlowerBlue{
-  border: 1px solid CornFlowerBlue;
+  border: 1px solid Black;
   width: 100%;
   height: 0px;
 }
@@ -278,7 +322,12 @@ body {
    bottom: 0;
    padding-bottom: 1vh;
    width: 100%;
-   background-color: AliceBlue;
-   color: Black;
+   background-color: Gray;
+   color: White;
    text-align: center;
+}
+
+.underfooter {
+   width: 100%;
+   background-image: linear-gradient(Gray, White);
 }

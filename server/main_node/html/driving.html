@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>DARLMID</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="icon" href="/images/DARLMID_icon.png">
+    <script type="text/javascript" src="/js/common.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  </head>
+
+  <body>
+
+    <div class="center-x navbar" id="top navbar">
+      <a class="logo_element center-y" href="/"><img src="/images/DARLMID_icon.png" alt="logo" height="100%"></a>
+      <div class="navbar_empty_element_loggedin"></div>
+      <a class="driving_element center-xy" href="/driving">Driving RL</a>
+      <a class="element center-xy" href="/">Home</a>
+      <a class="element center-xy" href="/about_us">About Us</a>
+      <a class="element center-xy" href="/documentation">Documentation</a>
+      <a class="element center-xy login" href="/profile" id="profile a">Profile</a>
+      <a class="element center-xy logout" href="/logout">Logout</a>
+    </div>
+
+    <script type="text/javascript" async>
+      replace_profile_by_username();
+    </script>
+
+    <div class="full_width" id="center">
+      <div class="driving_select center-x">
+        <div class="driving_select_box" id="central_box">
+          <div class="center-x">
+            <h3>Select Driving Training Conditions Below</h3>
+          </div><br>
+
+          <div class="center-x">
+            <b>Select circuit:</b>
+          </div>
+          <div class="center-x">
+            <select id="circuit_selected" class="circuit_selector half_width">
+              <option value="five">Five</option>
+              <option value="omega">Omega</option>
+            </select>
+          </div><br>
+
+          <div class="center-x">
+            <b>Select vehicle:</b>
+          </div>
+          <div class="center-x">
+            <select id="vehicle_selected" class="circuit_selector half_width">
+              <option value="utilitarian">Utilitarian</option>
+              <option value="truck">Truck</option>
+            </select>
+          </div><br>
+
+        <div class="center-x">
+          <form>
+            <div class="center-x">
+              <input type="button" value="Process driving conditions" onclick="process_driving_conditions()" class="process_driving_conditions" id="process button">
+            </div>
+          </form>
+        </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" defer>
+      $(document).ready(function() {
+        $(".circuit_selector").select2();
+      });
+    </script>
+
+    <div class="footer" id="actual footer">
+      <div class="thin_horizontal_line_CornFlowerBlue"></div>
+      <p>Copyright: Carlos Redondo Albertos, 2021</p>
+    </div>
+
+    <div class="underfooter" id="bottom_underfooter"></div>
+
+    <script type="text/javascript" defer>
+      complete_underfooter(["top navbar", "center", "actual footer"], "bottom_underfooter");
+    </script>
+
+  </body>
+</html>

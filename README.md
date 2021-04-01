@@ -231,3 +231,9 @@ and conditions is provided in the [licenses](./licenses) subdirectory.
 113. https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object
 114. https://api.jquery.com/jQuery.isEmptyObject/
 115. https://code.jquery.com/
+116. https://www.quackit.com/html/howto/how_to_make_a_background_image_not_repeat.cfm
+117. https://stackoverflow.com/questions/1085801/get-selected-value-in-dropdown-list-using-javascript
+118. https://select2.org/getting-started/installation
+119. https://select2.org/getting-started/basic-usage
+120. https://www.w3schools.com/jsref/jsref_length_array.asp
+121. https://stackoverflow.com/questions/30650961/functional-way-to-iterate-over-range-es6-7

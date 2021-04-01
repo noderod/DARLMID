@@ -1,5 +1,5 @@
 /*
-BASICS
+SUMMARY
 
 Common functions.
 */
@@ -184,4 +184,20 @@ async function GET_JSON(given_url) {
 async function replace_profile_by_username() {
   let user_session_info = await GET_JSON("/user_info");
   replace_element_HTML_contents("profile a", user_session_info["username"]);
+}
+
+
+// Completes the underfooter if necessary
+// If the height of the provided divs combined is larger than that of the window, extends the underfooter as long as is needed
+function complete_underfooter(provided_divs, underfooter_id) {
+  let total_window_height = window.innerHeight;
+  let combined_div_height = 0;
+
+  for (let qq = 0; qq < provided_divs.length; qq++) {
+    combined_div_height += document.getElementById(provided_divs[qq]).offsetHeight;
+  }
+
+  if (combined_div_height < total_window_height) {
+    document.getElementById(underfooter_id).style.height = (total_window_height - combined_div_height).toString() + "px";
+  }
 }

@@ -241,3 +241,9 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 123. https://github.com/jonobr1/two.js/
 124. https://two.js.org/
 125. https://www.geeksforgeeks.org/python-os-path-isfile-method/
+126. https://www.w3schools.com/jsref/met_element_remove.asp
+127. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Errors/Missing_colon_after_property_id
+128. https://jsonlint.com/
+129. https://stackoverflow.com/questions/596467/how-do-i-convert-a-float-number-to-a-whole-number-in-javascript
+130. https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_list_without_bullets
+131. https://www.w3schools.com/howto/howto_css_list_without_bullets.asp

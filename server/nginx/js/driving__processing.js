@@ -43,5 +43,41 @@ async function process_driving_conditions() {
   document.getElementById("center").style.height = center_div_height.toString() + "px";
 
   // Delete the underfooter
-  document.getElementById("bottom_underfooter").remove(); 
+  document.getElementById("bottom_underfooter").remove();
+
+  let center_contents_JSON = {"<>":"table", "class":"driving_table", "html":[
+    {"<>":"tr", "html":[
+      {"<>":"td", "class":"driving_controls", "id":"driving controls", "html":[
+        {"<>":"div", "html":[
+          {"<>":"h3", "text":"VEHICLE CONTROLS", "class":"center-x"},
+
+          {"<>":"div", "class":"center-x", "html":[
+            {"<>":"div", "html":[
+              {"<>":"b", "text":"W"},
+              {"<>":"span", "text":" Move forwards"},
+              {"<>":"br"},
+
+              {"<>":"b", "text":"A"},
+              {"<>":"span", "text":" Turn left"},
+              {"<>":"br"},
+
+              {"<>":"b", "text":"S"},
+              {"<>":"span", "text":" Move backwards"},
+              {"<>":"br"},
+
+              {"<>":"b", "text":"D"},
+              {"<>":"span", "text":" Turn right"},
+              {"<>":"br"},
+            ]}
+          ]}
+        ]}
+      ]},
+      {"<>":"td", "class":"driving_area", "id":"driving area"}
+    ]
+    }
+  ]
+  }
+
+  let center_contents = json2html.transform({}, center_contents_JSON);
+  replace_element_HTML_contents("center", center_contents);
 }

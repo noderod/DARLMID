@@ -268,6 +268,12 @@ body {
 }
 
 
+.full_width__full_height {
+  width: 100%;
+  height: 100%;
+}
+
+
 .driving_select {
   width: 100%;
   background-image:url("https://upload.wikimedia.org/wikipedia/commons/3/38/LeMans_1923.jpg");
@@ -304,6 +310,40 @@ body {
 
 .process_driving_conditions:hover {
   background-color: Gray;
+}
+
+
+
+.driving_table {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  border-collapse: collapse;
+}
+
+.driving_controls {
+  background-color: RebeccaPurple;
+  color: White;
+  width: 30%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.driving_area {
+  width: 70%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+
+
+/*ul without bullets or any other markers*/
+.ul_without_markers {
+  list-style-type: none;
 }
 
 

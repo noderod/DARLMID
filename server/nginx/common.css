@@ -229,8 +229,6 @@ body {
 .disallowed_button {
   background-color: Gainsboro;
   color: Black;
-  width: 50%;
-  padding: 5px;
   border: none;
 }
 

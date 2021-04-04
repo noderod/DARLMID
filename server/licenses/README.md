@@ -12,6 +12,8 @@ MIT license. A copy of its MIT licensed can be obtained [here](https://github.co
 The [jQuery](https://openjsf.org/) JS library was used in multiple parts of the project. It was obtained through an
 MIT license. A copy of its MIT licensed can be obtained [here](https://github.com/jquery/jquery/blob/main/LICENSE.txt). A copy of this license is also provided within this repository [here](./jQuery_MIT.txt).
 
+The [Two.js](https://two.js.org/) JS library was used in multiple parts of the project. It was obtained through an
+MIT license. A copy of its MIT licensed can be obtained [here](https://github.com/jonobr1/two.js/blob/dev/LICENSE). A copy of this license is also provided within this repository [here](./jQuery_MIT.txt).
 
 
 ### Images

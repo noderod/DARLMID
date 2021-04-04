@@ -111,7 +111,7 @@ make teardown
 ## Licensing
 
 Parts of this project utilize software and images which are licensed under different conditions. An overview of these materials, licenses,
-and conditions is provided in the [licenses](./licenses) subdirectory.
+and conditions is provided in the [licenses](./server/licenses) subdirectory.
 
 
 ## References
@@ -237,3 +237,7 @@ and conditions is provided in the [licenses](./licenses) subdirectory.
 119. https://select2.org/getting-started/basic-usage
 120. https://www.w3schools.com/jsref/jsref_length_array.asp
 121. https://stackoverflow.com/questions/30650961/functional-way-to-iterate-over-range-es6-7
+122. https://stackoverflow.com/questions/10879045/how-to-set-opacity-in-parent-div-and-not-affect-in-child-div
+123. https://github.com/jonobr1/two.js/
+124. https://two.js.org/
+125. https://www.geeksforgeeks.org/python-os-path-isfile-method/

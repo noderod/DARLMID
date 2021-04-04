@@ -7,6 +7,7 @@ COPY traffic.py            /DARLMID/traffic.py
 COPY create_tables.py      /DARLMID/create_tables.py
 COPY html                  /DARLMID/html
 COPY circuits              /DARLMID/circuits
+COPY vehicles              /DARLMID/vehicles
 
 RUN apk update &&\
     apk add bash curl gcc musl-dev postgresql-dev python3-dev &&\

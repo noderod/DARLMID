@@ -5,6 +5,7 @@ Directs TCP traffic and executes the appropriate commands or returning the corre
 """
 
 import json
+import os
 
 from aiohttp import web
 
@@ -169,7 +170,7 @@ async def action_login(request):
 # Obtain's all the user information for the session as stored in Redis
 async def action_user_session_info(request):
 
-    # Not logged-in, redirect to /login
+    # Not logged-in, return empty
     if not (await is_logged_in(request)):
         web_response = web.json_response({})
         return web_response
@@ -178,6 +179,49 @@ async def action_user_session_info(request):
     obtained_session_info = await get_user_session_info(request.cookies["DARLMID_key"])
     web_response = web.json_response(obtained_session_info)
     return web_response
+
+
+# Obtains vehicle and car information
+async def retrieve_circuit_vehicle(request):
+
+    # Not logged-in, redirect to /
+    if not (await is_logged_in(request)):
+        raise web.HTTPFound("/")
+
+    # If it fails, return a failure
+    try:
+        received_cv_data = await request.json()
+    except:
+        raise web.HTTPUnprocessableEntity()
+
+    # Ensures that all JSON data inputs contain:
+    # username, password, agreed to TOS
+    necessary_fields = ["circuit", "vehicle"]
+    if not check_keys_in_dict(received_cv_data, necessary_fields):
+        return web.json_response({"Missing keys": ", ".join(missing_keys_in_dict(received_cv_data, necessary_fields))})
+
+    chosen_circuit = received_cv_data["circuit"]
+    chosen_vehicle = received_cv_data["vehicle"]
+
+    circuit_file = "/DARLMID/circuits/" + chosen_circuit + ".json"
+    vehicle_file = "/DARLMID/vehicles/" + chosen_vehicle + ".json"
+
+    # Checks if the circuit exists
+    if not os.path.isfile(circuit_file):
+        return web.json_response({"Output":"Failure", "Cause":"Circuit %s does not exist" % (chosen_circuit,)})
+    # Checks if the vehicle exists
+    if not os.path.isfile(vehicle_file):
+        return web.json_response({"Output":"Failure", "Cause":"Vehicle %s does not exist" % (chosen_vehicle,)})
+
+    with open(circuit_file, "r") as jf:
+        necessary_info = json.load(jf)
+
+    with open(vehicle_file, "r") as jf:
+        necessary_info["vehicle"] = json.load(jf)["vehicle"]
+
+    necessary_info["Output"] = "Success"
+
+    return web.json_response(necessary_info)
 
 
 # Redirects to custom 404 page
@@ -245,6 +289,10 @@ DARLMID_web_app.router.add_get("/user_info", action_user_session_info)
 
 # Driving, training an RL agent through demonstrations
 DARLMID_web_app.router.add_get("/driving", driving)
+
+# Retrieving circuit and vehicle information
+DARLMID_web_app.router.add_post("/retrieve_circuit_vehicle", retrieve_circuit_vehicle)
+
 
 
 # Error handling

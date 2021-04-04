@@ -247,3 +247,7 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 129. https://stackoverflow.com/questions/596467/how-do-i-convert-a-float-number-to-a-whole-number-in-javascript
 130. https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_list_without_bullets
 131. https://www.w3schools.com/howto/howto_css_list_without_bullets.asp
+132. https://code.tutsplus.com/tutorials/drawing-with-twojs--net-32024
+133. https://github.com/jonobr1/two.js/issues/144
+134. Previous and continuing coursework materials
+135. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters

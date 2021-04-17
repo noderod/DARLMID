@@ -251,3 +251,5 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 133. https://github.com/jonobr1/two.js/issues/144
 134. Previous and continuing coursework materials
 135. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
+136. https://stackoverflow.com/questions/21227287/make-div-scrollable
+137. https://matplotlib.org/stable/gallery/color/named_colors.html

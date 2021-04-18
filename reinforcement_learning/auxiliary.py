@@ -52,3 +52,13 @@ Appends the first element of the array to the end, useful when plotting
 """
 def first_append_to_last(arr):
     return arr + [arr[0]]
+
+
+
+"""
+Calculates the RMS (root mean square) value of an array
+"""
+def RMS(arr):
+    n = len(arr)
+    sq_sum = sum(a**2 for a in arr)
+    return (sq_sum/n)**0.5

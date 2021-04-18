@@ -233,3 +233,8 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 136. https://stackoverflow.com/questions/21227287/make-div-scrollable
 137. https://matplotlib.org/stable/gallery/color/named_colors.html
 138. https://en.wikiversity.org/wiki/Python_Programming/Classes
+139. https://en.wikipedia.org/wiki/Q-learning
+140. Previous Q-learning homework assignment, provided in CS 5100 (Northeastern University)
+141. https://docs.python.org/3/library/random.html
+142. Artificial Intelligence A Modern Approach Third Edition (Stuart Russell, Peter Norvig)
+143. https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-local-commits-in-git

@@ -21,7 +21,7 @@ parser = argparse.ArgumentParser()
 required_flags = parser.add_argument_group(title="Required")
 required_flags.add_argument("--circuit",required=True,  help="JSON filepath to read circuit information from", type=str)
 required_flags.add_argument("--output", required=True, help="JSON filepath to output the Q and rewards matrices as well as other data", type=str)
-parser.add_argument("--show", help="Show output map and ship locations", action="store_true")
+parser.add_argument("--show", help="Show output circuit", action="store_true")
 args = parser.parse_args()
 
 
@@ -158,6 +158,7 @@ output_data = {
     "ny":ny,
     "Δx":Δx,
     "Δy":Δy,
+    "possible speeds":possible_speeds,
     "valid positions":valid_position,
 
     "orientations":orientations,

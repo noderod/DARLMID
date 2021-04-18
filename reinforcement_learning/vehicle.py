@@ -36,11 +36,11 @@ class Vehicle(object):
         end_speed = self.speed
 
         if action_index == 0:
-            reached_positions = move_forwards_with_current_speed(self.x, self.y, self.orientation_index, self.speed)
+            reached_positions = move_forwards_with_current_speed(self.xloc, self.yloc, self.orientation_index, self.speed)
             orientation_at_step = (end_speed + 1)*[self.orientation_index]
 
         elif (action_index == 1) or (action_index == 2):
-            reached_positions = move_forwards_with_current_speed(self.x, self.y, self.orientation_index, self.speed)
+            reached_positions = move_forwards_with_current_speed(self.xloc, self.yloc, self.orientation_index, self.speed)
             orientation_at_step = (end_speed + 1)*[self.orientation_index]
             end_orientation = turn_direction(end_orientation, action_index)
 
@@ -48,35 +48,32 @@ class Vehicle(object):
             orientation_at_step += (end_speed + 1)*[end_orientation]
 
         elif action_index == 3:
-            reached_positions = move_forwards_with_current_speed(self.x, self.y, self.orientation_index, self.speed)
+            reached_positions = move_forwards_with_current_speed(self.xloc, self.yloc, self.orientation_index, self.speed)
             orientation_at_step = (end_speed + 1)*[self.orientation_index]
-            end_speed = increase_speed(end_speed)
+            end_speed = self.increase_speed(end_speed)
 
         elif action_index == 4:
-            reached_positions = move_forwards_with_current_speed(self.x, self.y, self.orientation_index, self.speed)
+            reached_positions = move_forwards_with_current_speed(self.xloc, self.yloc, self.orientation_index, self.speed)
             orientation_at_step = (end_speed + 1)*[self.orientation_index]
-            end_speed = reduce_speed(end_speed)
+            end_speed = self.reduce_speed(end_speed)
 
 
         # If an intermediate location is not valid (as per the rewards matrix) then the vehicle stops there
-        for nvnv in range(0, len(reached_positions) - 1):
+        for nvnv in range(0, len(reached_positions)):
             x_end, y_end = reached_positions[nvnv]
             end_orientation = orientation_at_step[nvnv]
 
             # If a location is outside the map, it simply reverts back to the previous position, stops
             # Assumed that the starting location is within the map
-            if not location_is_within_boundaries(x_end, y_end):
+            if not self.location_is_within_boundaries(x_end, y_end):
                 x_end, y_end = reached_positions[nvnv - 1]
                 end_orientation = orientation_at_step[nvnv - 1]
+                end_speed = 0
                 break
 
             # If the location is an obstacle or not part of the circuit, ends there
             elif self.rewards_matrix[x_end][y_end] == -100:
                 break
-
-        else:
-            x_end, y_end = reached_positions[-1]
-            end_orientation = orientation_at_step[-1]
 
 
 
@@ -104,66 +101,68 @@ class Vehicle(object):
 
 
 
-    # Checks if a locations is between 2 values. i.e. z_min <= z < z_max
-    def location_is_within_z(z, z_min, z_max):
-        return (z_min <= z) and (z < z_max)
-
-
     # Checks if a location is within the boundaries
-    def location_is_within_boundaries(xcord, ycord):
+    def location_is_within_boundaries(self, xcord, ycord):
         return location_is_within_z(xcord, 0, self.nx) and location_is_within_z(ycord, 0, self.ny)
 
 
-    # Turns the direction, returns the new direction
-    def turn_direction(start_direction, instruction):
-        if instruction == 1:
-            adder = -1
-        else:
-            adder = +1
-
-        after_orientation = start_direction + adder
-
-        if after_orientation < 0:
-            return 3
-        elif after_orientation > 3:
-            return 0
-        else:
-            return after_orientation
-
-
-    # Moves with a certain speed in the given orientation, returns the updated coordinates
-    # Returns positions along the way [[x1, y1], ...] including the last one
-    def move_forwards_with_current_speed(start_x, start_y, start_direction, current_speed):
-
-        # 0 -> "N", 1 -> "E", 2 -> "S", 3 -> "W"
-
-        if start_direction == 0:
-            up = 1
-            right = 0
-        elif start_direction == 1:
-            up = 0
-            right = 1
-        elif start_direction == 2:
-            up = -1
-            right = 0
-        elif start_direction == 3:
-            up = 0
-            right = -1
-
-        positions_along_the_way = []
-
-        # +1 so that the current speed is handled
-        for a_speed_step in range(0, current_speed+1):
-            positions_along_the_way.append([start_x + a_speed_step*right, start_y + a_speed_step*up])
-
-        return positions_along_the_way
-
-
     # Reduces the speed, returns the updated speed
-    def reduce_speed(start_speed):
+    def reduce_speed(self, start_speed):
         return max(0, start_speed - 1)
 
 
     # Increases the speed, returns the updated speed
-    def increase_speed(start_speed):
-        return min(speed_max, start_speed + 1)
+    def increase_speed(self, start_speed):
+        return min(self.speed_max, start_speed + 1)
+
+
+
+
+# Checks if a locations is between 2 values. i.e. z_min <= z < z_max
+def location_is_within_z(z, z_min, z_max):
+    return (z_min <= z) and (z < z_max)
+
+
+# Turns the direction, returns the new direction
+def turn_direction(start_direction, instruction):
+    if instruction == 1:
+        adder = -1
+    else:
+        adder = +1
+
+    after_orientation = start_direction + adder
+
+    if after_orientation < 0:
+        return 3
+    elif after_orientation > 3:
+        return 0
+    else:
+        return after_orientation
+
+
+# Moves with a certain speed in the given orientation, returns the updated coordinates
+# Returns positions along the way [[x1, y1], ...] including the last one
+def move_forwards_with_current_speed(start_x, start_y, start_direction, current_speed):
+
+    # 0 -> "N", 1 -> "E", 2 -> "S", 3 -> "W"
+
+    if start_direction == 0:
+        up = 1
+        right = 0
+    elif start_direction == 1:
+        up = 0
+        right = 1
+    elif start_direction == 2:
+        up = -1
+        right = 0
+    elif start_direction == 3:
+        up = 0
+        right = -1
+
+    positions_along_the_way = []
+
+    # +1 so that the current speed is handled
+    for a_speed_step in range(0, current_speed+1):
+        positions_along_the_way.append([start_x + a_speed_step*right, start_y + a_speed_step*up])
+
+    return positions_along_the_way

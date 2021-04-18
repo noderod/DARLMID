@@ -261,3 +261,6 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 144. https://en.wikipedia.org/wiki/Taxicab_geometry
 145. https://docs.python.org/3/library/heapq.html
 146. https://wiki.python.org/moin/TimeComplexity
+147. https://stackoverflow.com/questions/33282368/plotting-a-2d-heatmap-with-matplotlib
+148. https://stackoverflow.com/questions/36343928/python-heatmap-plot-colorbar
+149. https://stackoverflow.com/questions/8396101/invert-image-displayed-by-imshow-in-matplotlib

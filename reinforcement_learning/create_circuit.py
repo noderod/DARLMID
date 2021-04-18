@@ -160,6 +160,7 @@ output_data = {
     "Δy":Δy,
     "possible speeds":possible_speeds,
     "valid positions":valid_position,
+    "goal discrete location":goal_discrete_loc,
 
     "orientations":orientations,
     "orientation locations":orientation_locations,

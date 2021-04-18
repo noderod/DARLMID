@@ -51,22 +51,43 @@ Python3 libraries:
 
 ## Deployment
 
+
+All commands start within the root directory for this repository.
+
 1. Generate the necessary matrices and data
 
 Example:
 
 ```bash
+cd reinforcement_learning/
 python3 create_circuit.py --circuit circuits/five.json --output circuits/five_Q_matrix.json --show
 ```
 
 To show all the options:
 
 ```bash
+cd reinforcement_learning/
 python3 create_circuit.py --help
 ```
 
 
-2. Setup the docker containers
+2. (Optional) Run an A* search in order to obtain an *optimal* baseline to compare to
+
+
+Example: 
+
+```bash
+cd reinforcement_learning/
+python3 q_Astar_trainer.py --A-star-runs 30 --data circuits/five_Q_matrix.json --output circuits/five_A_1.j
+```
+
+
+
+Note: A* is not an optimal search method, since it is implemented using the L1 norm (Manhattan distance) as a heuristic.
+However, it results in a faster search than Breadth First Search while still producing good results.
+
+
+3. Setup the docker containers
 
 Modify the *.env* file to change the credentials.
 
@@ -74,7 +95,6 @@ Modify the *.env* file to change the credentials.
 Note: *sudo* permission may be necessary.
 
 ```bash
-cd server
 make deploy
 ```
 
@@ -238,3 +258,6 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 141. https://docs.python.org/3/library/random.html
 142. Artificial Intelligence A Modern Approach Third Edition (Stuart Russell, Peter Norvig)
 143. https://stackoverflow.com/questions/927358/how-do-i-undo-the-most-recent-local-commits-in-git
+144. https://en.wikipedia.org/wiki/Taxicab_geometry
+145. https://docs.python.org/3/library/heapq.html
+146. https://wiki.python.org/moin/TimeComplexity

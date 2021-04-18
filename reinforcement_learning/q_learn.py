@@ -1,7 +1,7 @@
 """
 SUMMARY
 
-Reinfrocement learning via q-learning on the provided data, using previous data if requested
+Reinforcement learning via q-learning on the provided data, using previous data if requested
 """
 
 import argparse
@@ -10,7 +10,6 @@ import random
 import sys
 
 import matplotlib.pyplot as plt
-from shapely.geometry import Point, Polygon
 
 import auxiliary as aux
 from vehicle import Vehicle
@@ -72,8 +71,34 @@ actions = [j for j in range(0, len(original_data["actions"]))]
 # UPDATES Q MATRIX WITH DEMONSTRATION RESULTS
 #-----------------------------------------------------
 
-# TODO
+# Retrieves demonstration data
+with open(args.demonstration, "r") as jf:
+    original_demonstration_data =  json.load(jf)
 
+action_sets_taken = original_demonstration_data["actions taken"]
+# Positive intent -> Intentionally good demonstrations (although perhaps the user is incompetent)
+# Negative intent -> Intentionally poor or misleading demonstrations
+positive_intent = original_demonstration_data["intent"] == "positive"
+
+
+if positive_intent:
+
+    # Simply take the data as is, modify the appropriate Q matrix value, adding +1 to the appropiate Q[s, a] location
+    for an_action_path in action_sets_taken:
+
+        # Goes step by step
+        for a_step in an_action_path:
+            step_x = a_step[0]
+            step_y = a_step[1]
+            step_o = a_step[2]
+            step_v = a_step[3]
+            step_a = a_step[4]
+
+            Q[step_x][step_y][step_o][step_v][step_a] += 1
+
+else:
+    # TODO
+    pass
 
 
 #-----------------------------------------------------

@@ -62,3 +62,14 @@ def RMS(arr):
     n = len(arr)
     sq_sum = sum(a**2 for a in arr)
     return (sq_sum/n)**0.5
+
+
+
+"""
+Calculates the L1 norm (Manhattan distance) between P1 = [x1, y1] and P2 = [x2, y2]
+"""
+def L1(P1, P2):
+    x1, y1 = P1
+    x2, y2 = P2
+
+    return abs(x2 - x1) + abs(y2 - y1)

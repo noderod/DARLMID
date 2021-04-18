@@ -1,7 +1,6 @@
 # DARLMID
 
 Expert-Guided ML for 2D car driving trained under intentionally poor demonstrations.
-(No longer to be used)
 
 
 
@@ -27,56 +26,15 @@ Then visit http://localhost:8080/ to see the website running.
 
 ## Space
 
-The reinforcement agent operates in a 100x100 m square, which may contain obstacles. The obstacles can be either circles or non
-self-intersecting polygons. These obstacles can insect each other or the wall.
-
-
-### Understanding JSON output files
-
-Each user demonstration will produce a JSON output which is then preprocessed before been used as training material for the
-reinforcement agent. Examples are provided in the examples subdirectory [here](./reinforcement_learning/preprocessing/examples).
-
-Each JSON file is composed of the following required tags:
-
-* "metadata":
-	* "user id"
-	* "datetime": Must be a UTC timestamp
-
-* "obstacle": either circles or polygons
-	* circles: {"type":"circle", "center":[x, y], "r":radius}
-	* polygons: {"type":"polygon", "points":[[x1, y1], [x2, y2], ..., [xn, yn]]}
-
-* poisitions: 
- 	* [[x, y], Angle (in radians, counterclockwise), Action code]
-
-
-Polygons cannot be self-intersecting. Do not repeat the polygon's starting point at the end.
-
-Action codes:
-| **Code** | **Action**           |
-| :--------|:--------------------:|
-| 0        | No change            |
-| 1        | Turn left            |
-| 2        | Turn right           |
-| 3        | Turn directions      |
-
-
-To preprocess these files:
-```bash
-cd reinforcement_learning/preprocessing
-python3 preprocessor.py --datafile $JSON_INPUT_FILEPATH --output $JSON_OUTPUT_FILEPATH
-```
 
 
 
-Example:
+## Understanding JSON output files
 
-```bash
-cd reinforcement_learning/preprocessing
-python3 preprocessor.py --datafile examples/reef.json --output examples/tmp_reef_output.json
-```
 
-To show the meaning of each flag:
+
+
+
 
 
 ## Required software and libraries
@@ -92,6 +50,23 @@ Python3 libraries:
 
 
 ## Deployment
+
+1. Generate the necessary matrices and data
+
+Example:
+
+```bash
+python3 create_circuit.py --circuit circuits/five.json --output circuits/five_Q_matrix.json --show
+```
+
+To show all the options:
+
+```bash
+python3 create_circuit.py --help
+```
+
+
+2. Setup the docker containers
 
 Modify the *.env* file to change the credentials.
 
@@ -109,10 +84,13 @@ Note, to bring the containers down:
 make teardown
 ```
 
+
+
 ## Licensing
 
 Parts of this project utilize software and images which are licensed under different conditions. An overview of these materials, licenses,
 and conditions is provided in the [licenses](./server/licenses) subdirectory.
+
 
 
 ## References
@@ -254,3 +232,4 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 135. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters
 136. https://stackoverflow.com/questions/21227287/make-div-scrollable
 137. https://matplotlib.org/stable/gallery/color/named_colors.html
+138. https://en.wikiversity.org/wiki/Python_Programming/Classes

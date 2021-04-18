@@ -8,6 +8,7 @@ Shows the circuit if requested
 
 import argparse
 import json
+import sys
 
 import matplotlib.pyplot as plt
 from shapely.geometry import Point, Polygon
@@ -19,7 +20,7 @@ import auxiliary as aux
 parser = argparse.ArgumentParser()
 required_flags = parser.add_argument_group(title="Required")
 required_flags.add_argument("--circuit",required=True,  help="JSON filepath to read circuit information from", type=str)
-required_flags.add_argument("--output", required=True, help="JSON filepath to output Q matrix and other data", type=str)
+required_flags.add_argument("--output", required=True, help="JSON filepath to output the Q and rewards matrices as well as other data", type=str)
 parser.add_argument("--show", help="Show output map and ship locations", action="store_true")
 args = parser.parse_args()
 
@@ -116,20 +117,68 @@ for xloc in range(0, nx):
 # GENERATING THE Q REWARDS MATRIX
 #---------------------------------------
 
-
-
 # Empty matrix
+Q = [[0 for yloc in range(0, ny)] for xloc in range(0, nx)]
+
+# s: xloc, yloc, orientation = [N, S, E, W], speed
+# a: Forwards, Turn left, Turn Right, Accelerate, Decelerate
+
+orientations = ["N", "E", "S", "W"]
+orientation_locations = {"N":0, "E":1, "S":2, "W":3}
+
+actions = ["Forwards", "Turn left", "Turn Right", "Accelerate", "Decelerate"]
+action_locations = {"Forwards":0, "Turn left":1, "Turn Right":2, "Accelerate":3, "Decelerate":4}
+
+speeds = [s for s in range(0, possible_speeds)]
+
+for xloc in range(0, nx):
+    for yloc in range(0, ny):
+
+        # Sets the reward location as +100
+        if R[xloc][yloc] == 100:
+            Q[xloc][yloc] = [[[100 for an_action in actions] for a_speed in speeds] for an_orientation in orientations]
+
+        # Sets forbidden locations as -100
+        elif R[xloc][yloc] == -100:
+            Q[xloc][yloc] = [[[-100 for an_action in actions] for a_speed in speeds] for an_orientation in orientations]
+
+        # Only the valid positions have associated actions to save memory
+        else:
+            Q[xloc][yloc] = [[[0 for an_action in actions] for a_speed in speeds] for an_orientation in orientations]
 
 
 
+#---------------------------------------
+# WRITES ALL THE DATA IN JSON FORMAT
+#---------------------------------------
+output_data = {
+    "rewards matrix":R,
+    "Q matrix":Q,
+    "nx":nx,
+    "ny":ny,
+    "Δx":Δx,
+    "Δy":Δy,
+    "valid positions":valid_position,
 
+    "orientations":orientations,
+    "orientation locations":orientation_locations,
+    "actions":actions,
+    "action locations":action_locations
+}
 
+with open(args.output, "w") as jf:
+    jf.write(json.dumps(output_data, indent=4))
 
 
 
 #---------------------------------------
 # SHOWS THE CORRESPONDING CIRCUIT
 #---------------------------------------
+
+if not args.show:
+    sys.exit()
+
+
 
 plt.figure()
 

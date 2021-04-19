@@ -312,6 +312,13 @@ body {
   background-color: Gray;
 }
 
+.driving_log {
+  width: 80%;
+  background-color: DarkSlateBlue;
+  color: White;
+  overflow-y: auto;
+}
+
 
 
 .driving_table {

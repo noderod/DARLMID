@@ -264,3 +264,7 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 147. https://stackoverflow.com/questions/33282368/plotting-a-2d-heatmap-with-matplotlib
 148. https://stackoverflow.com/questions/36343928/python-heatmap-plot-colorbar
 149. https://stackoverflow.com/questions/8396101/invert-image-displayed-by-imshow-in-matplotlib
+150. https://stackoverflow.com/questions/1527803/generating-random-whole-numbers-in-javascript-in-a-specific-range
+151. https://www.w3schools.com/js/js_classes.asp
+152. https://www.w3schools.com/js/js_comparisons.asp
+153. https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_concat

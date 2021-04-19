@@ -196,28 +196,20 @@ async def retrieve_circuit_vehicle(request):
 
     # Ensures that all JSON data inputs contain:
     # username, password, agreed to TOS
-    necessary_fields = ["circuit", "vehicle"]
+    necessary_fields = ["circuit"]
     if not check_keys_in_dict(received_cv_data, necessary_fields):
         return web.json_response({"Missing keys": ", ".join(missing_keys_in_dict(received_cv_data, necessary_fields))})
 
     chosen_circuit = received_cv_data["circuit"]
-    chosen_vehicle = received_cv_data["vehicle"]
 
     circuit_file = "/DARLMID/circuits/" + chosen_circuit + ".json"
-    vehicle_file = "/DARLMID/vehicles/" + chosen_vehicle + ".json"
 
     # Checks if the circuit exists
     if not os.path.isfile(circuit_file):
         return web.json_response({"Output":"Failure", "Cause":"Circuit %s does not exist" % (chosen_circuit,)})
-    # Checks if the vehicle exists
-    if not os.path.isfile(vehicle_file):
-        return web.json_response({"Output":"Failure", "Cause":"Vehicle %s does not exist" % (chosen_vehicle,)})
 
     with open(circuit_file, "r") as jf:
         necessary_info = json.load(jf)
-
-    with open(vehicle_file, "r") as jf:
-        necessary_info["vehicle"] = json.load(jf)["vehicle"]
 
     necessary_info["Output"] = "Success"
 

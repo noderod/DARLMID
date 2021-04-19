@@ -10,10 +10,11 @@ async function process_driving_conditions() {
   let c = document.getElementById("circuit_selected");
   let chosen_circuit = c.options[c.selectedIndex].value;
 
-  let v = document.getElementById("vehicle_selected");
-  let chosen_vehicle = v.options[v.selectedIndex].value;
+  let i = document.getElementById("intention");
+  // Positive intention
+  let chosen_intention = i.options[i.selectedIndex].value;
 
-  let API_result = await POST_JSON_return_JSON("/retrieve_circuit_vehicle", {"circuit": chosen_circuit, "vehicle":chosen_vehicle});
+  let API_result = await POST_JSON_return_JSON("/retrieve_circuit_vehicle", {"circuit": chosen_circuit});
 
   // Clears any possible error messages
   clear_div_contents("cv errors");
@@ -22,7 +23,7 @@ async function process_driving_conditions() {
 
   if (output == "Failure") {
     // Show error message
-    document.getElementById("cv errors").append(create_error_message("ERROR", API_result["Cause"], "error selecting circuit and/or vehicle"));
+    document.getElementById("cv errors").append(create_error_message("ERROR", API_result["Cause"], "Error selecting driving environment"));
     return;
   }
 
@@ -63,10 +64,36 @@ async function process_driving_conditions() {
               {"<>":"span", "text":" Move backwards"},
               {"<>":"br"},
 
-              {"<>":"b", "text":"D"},
-              {"<>":"span", "text":" Turn right"},
+              {"<>":"b", "text":"R"},
+              {"<>":"span", "text":" Accelerate"},
               {"<>":"br"},
+
+              {"<>":"b", "text":"F"},
+              {"<>":"span", "text":" Decelerate"},
             ]}
+          ]},
+
+          {"<>":"br"},
+
+          {"<>":"h3", "text":"VEHICLE DATA", "class":"center-x"},
+          {"<>":"br"},
+
+          {"<>":"div", "class":"center-x", "html":[
+            {"<>":"div", "html":[
+
+              {"<>":"b", "text":"Orientation "},
+              {"<>":"span", "text":"N", "id":"vehicle orientation"},
+              {"<>":"br"},
+
+              {"<>":"b", "text":"Speed "},
+              {"<>":"span", "text":"0", "id":"vehicle speed"},
+            ]}
+          ]},
+
+          {"<>":"br"},
+
+          {"<>":"div", "class":"center-x", "html":[
+            {"<>":"div", "class":"driving_log", "id":"driving log"}
           ]}
         ]}
       ]},
@@ -80,68 +107,158 @@ async function process_driving_conditions() {
   replace_element_HTML_contents("center", center_contents);
 
 
+  // Sets the driving log as having 30% of the height of the total driving area
+  document.getElementById("driving log").style.height = Math.round(0.30*center_div_height).toString() + "px";
+
   var driving_area_to_be_drawn = document.getElementById("driving area");
 
-  let da_ow = driving_area_to_be_drawn.offsetWidth;
-  let da_oh = driving_area_to_be_drawn.offsetHeight;
+  da_ow = driving_area_to_be_drawn.offsetWidth;
+  da_oh = driving_area_to_be_drawn.offsetHeight;
 
   var driving_area_to_be_drawn_params = { width: da_ow, height: da_oh};
-  var two = new Two(driving_area_to_be_drawn_params);
+  two = new Two(driving_area_to_be_drawn_params);
   two.appendTo(driving_area_to_be_drawn);
 
-  // Draws the circuit
-  let circuit_points = API_result["circuit"];
-  let circuit_anchors = [];
-  let circuit_xy_minmax = calculate_xy_minmax(circuit_points);
+  // Gets the reward matrix
+  let R = API_result["rewards matrix"];
 
-  for (let nvnv = 0; nvnv < circuit_points.length; nvnv++) {
-    let c_xy = generate_TWO_xy(circuit_points[nvnv][0], circuit_xy_minmax[0], circuit_points[nvnv][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=true);
-    circuit_anchors.push(new Two.Anchor(c_xy[0], c_xy[1]));
+
+  // Gets the necessary requirements for accounting for measurements
+  Δx = API_result["Δx"];
+  Δy = API_result["Δy"];
+  nx = API_result["nx"];
+  ny = API_result["ny"];
+
+  // Vehicle data
+  let speed_max = API_result["possible speeds"];
+
+  circuit_xy_minmax = [[0, nx], [0, ny]];
+
+  // Goal location
+  let goal_location = API_result["goal discrete location"];
+
+  // Draws the goal location
+  draw_cell(goal_location, "Green", 3, "ForestGreen", "goal cell");
+
+  // Valid cells
+  let valid_positions = API_result["valid positions"];
+
+  // Draws the valid positions
+  for (let mt = 0; mt < valid_positions.length; mt++) {
+    draw_cell(valid_positions[mt], "LightGrey", 3, "Grey", "valid position " + mt.toString());
   }
 
-  var circuit_TWO = new Two.Path(circuit_anchors, true, false);
-
-  circuit_TWO.stroke = "Black";
-  circuit_TWO.linewidth = 5;
-  circuit_TWO.fill = "Gray";
-  circuit_TWO.id = "circuit";
-  two.add(circuit_TWO);
-
-
-  // Draws the vehicle
-  let vehicle_points = API_result["vehicle"];
-  let vehicle_anchors = [];
-
-  for (let wiwi = 0; wiwi < vehicle_points.length; wiwi++) {
-    let v_xy = generate_TWO_xy(vehicle_points[wiwi][0], circuit_xy_minmax[0], vehicle_points[wiwi][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=true);
-    vehicle_anchors.push(new Two.Anchor(v_xy[0], v_xy[1]));
-  }
-
-  var vehicle_TWO = new Two.Path(vehicle_anchors, true, false);
-
-  vehicle_TWO.stroke = "SteelBlue";
-  vehicle_TWO.linewidth = 3;
-  vehicle_TWO.fill = "RoyalBlue";
-  vehicle_TWO.id = "vehicle";
-
-  // Adds the vehicle to agroup, so that it is easier to handle
-  var v_group = two.makeGroup(vehicle_TWO);
-
-
-  // Translates the vehicle to its starting position
-  let starting_pos = API_result["starting position"];
-  let starting_pos_updated = generate_TWO_xy(starting_pos[0][0], circuit_xy_minmax[0], starting_pos[0][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=false);
-
-  // Moves the vehicle to its starting position, negative y because positive y is moving down
-  v_group.translation.set(starting_pos_updated[0], -starting_pos_updated[1]);
-  // Rotates it as appropiate
-  v_group.rotation += starting_pos[1];
-
-
-  two.add(v_group);
-
-  // Rendering
+  // Renders the background
   two.update();
+
+
+  // Selects a random start location
+  let random_start_index = Math.floor(Math.random() * (valid_positions.length - 0)) + 0;
+  // In the extreme case when the random number obtained is 1
+  random_start_index = Math.min(random_start_index, valid_positions.length - 1)
+  let start_location = valid_positions[random_start_index];
+
+  let start_orientation = Math.floor(Math.random() * (4 - 0)) + 0;
+  // In the extreme case when the random number obtained is 1
+  start_orientation = Math.min(start_orientation, 3);
+  // Starting speed is always 0
+  let start_speed = 0;
+
+
+  // Generates a vehicle with at the start location
+  let user_vehicle = new Vehicle(nx, ny, start_location[0], start_location[1], start_orientation, start_speed, speed_max, R);
+
+
+  // Keeps track of states and actions seen so far
+  // [[x, y, o, v, a], ...]
+  let sa_seen_so_far = [];
+
+
+  // Placeholder for the drawn vehicle
+  let drawn_vehicle = null;
+
+  // Keeps executing actions as needed
+  while (true) {
+
+    // Obtains vehicle values
+    let v_x = user_vehicle.xloc;
+    let v_y = user_vehicle.yloc;
+    let v_o = user_vehicle.orientation_index;
+    let v_v = user_vehicle.speed;
+
+    console.log(v_x);
+    console.log(v_y);
+    console.log(v_o);
+    console.log(v_v);
+
+    // Draws a triangle there
+    // Placeholder
+    let upright_vehicle_coordinates = [];
+
+    // Drawn manually to avoid rotations
+    if (v_o === 0) {
+      // North
+      upright_vehicle_coordinates = [
+        [v_x + 0.2, v_y + 0.2],
+        [v_x + 0.8, v_y + 0.2],
+        [v_x + 0.5, v_y + 0.8]
+      ];
+    } else if (v_o === 1) {
+      // East
+      upright_vehicle_coordinates = [
+        [v_x + 0.2, v_y + 0.2],
+        [v_x + 0.8, v_y + 0.5],
+        [v_x + 0.2, v_y + 0.8]
+      ];
+    } else if (v_o === 2) {
+      // South
+      upright_vehicle_coordinates = [
+        [v_x + 0.8, v_y + 0.8],
+        [v_x + 0.2, v_y + 0.8],
+        [v_x + 0.5, v_y + 0.2]
+      ];
+    } else if (v_o === 3) {
+      // West
+      upright_vehicle_coordinates = [
+        [v_x + 0.8, v_y + 0.8],
+        [v_x + 0.2, v_y + 0.5],
+        [v_x + 0.8, v_y + 0.2]
+      ];
+    }
+
+    let vehicle_anchors = [];
+
+    for (let ny = 0; ny < upright_vehicle_coordinates.length; ny++) {
+      let item_xy = generate_TWO_xy(upright_vehicle_coordinates[ny][0], circuit_xy_minmax[0], upright_vehicle_coordinates[ny][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=true);
+      vehicle_anchors.push(new Two.Anchor(item_xy[0], item_xy[1]));
+    }
+
+    drawn_vehicle = new Two.Path(vehicle_anchors, true, false);
+
+    drawn_vehicle.stroke = "MidnightBlue";
+    drawn_vehicle.linewidth = 3;
+    drawn_vehicle.fill = "MediumBlue";
+    drawn_vehicle.id = "vehicle";
+    two.add(drawn_vehicle);
+
+    // Renders the vehicle
+    two.update();
+
+
+    // Ends here
+    // ONLY AS OF NOW
+    break;
+
+    // Obtains user input
+
+
+    // Deletes the vehicle at the end of the round
+    two.remove(drawn_vehicle);
+  }
+
+
+  // Sends the actions taken to the server
+
 }
 
 
@@ -183,24 +300,41 @@ function interpolate(x, x_min, x_max, y_min, y_max) {
 
 
 
-// Obtains the x min, x max, y min, y max in an array representing a poly line
-// Returns the result in the format: [[x min, x max], [y min, y max]]
-function calculate_xy_minmax(given_polyline) {
+// Draws a single shape given its external points (assumed no rotation)
+// Designed for fixed locations
+// polygon_border = [[x1, x2], ...]
+function draw_single_item(polygon_border, stroke_color, border_linewidth, fill_color, given_id) {
 
-  let xmin = (10)**9;
-  let xmax = (-10)**9;
-  let ymin = (10)**9;
-  let ymax = (-10)**9;
+  let item_anchors = [];
 
-  for (let azaz = 0; azaz < given_polyline.length; azaz++) {
-
-    [xn, yn] = given_polyline[azaz];
-
-    xmin = Math.min(xmin, xn);
-    xmax = Math.max(xmax, xn);
-    ymin = Math.min(ymin, yn);
-    ymax = Math.max(ymax, yn);
+  for (let nv = 0; nv < polygon_border.length; nv++) {
+    let item_xy = generate_TWO_xy(polygon_border[nv][0], circuit_xy_minmax[0], polygon_border[nv][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=true);
+    item_anchors.push(new Two.Anchor(item_xy[0], item_xy[1]));
   }
 
-  return [[xmin, xmax], [ymin, ymax]];
+  let single_item = new Two.Path(item_anchors, true, false);
+  single_item.stroke = stroke_color;
+  single_item.linewidth = border_linewidth;
+  single_item.fill = fill_color;
+  single_item.id = given_id;
+  two.add(single_item);
+}
+
+
+
+// Draws a cell given its bottom left x, y (BL = [x, y]) values
+function draw_cell(BL, stroke_color, border_linewidth, fill_color, given_id) {
+
+  let x_bl = BL[0];
+  let y_bl = BL[1];
+
+  // Only add 1 because the Δx, Δy are handled automatically
+  let cell_border = [
+                    [x_bl, y_bl],
+                    [x_bl + 1, y_bl],
+                    [x_bl + 1, y_bl + 1],
+                    [x_bl, y_bl + 1]
+                    ]
+
+  draw_single_item(cell_border, stroke_color, border_linewidth, fill_color, given_id);
 }

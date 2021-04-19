@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/two.js/0.7.4/two.min.js" defer></script>
     <script type="text/javascript" src="/js/driving__processing.js" defer></script>
+    <script type="text/javascript" src="/js/vehicle.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.0.0/json2html.min.js" defer></script>
   </head>
 
@@ -49,13 +50,12 @@
           </div><br>
 
           <div class="center-x">
-            <b>Select vehicle:</b>
+            <b>Select intention:</b>
           </div>
           <div class="center-x">
-            <select id="vehicle_selected" class="circuit_selector half_width">
-              <option value="triangle">Triangle</option>
-              <option value="utilitarian">Utilitarian</option>
-              <option value="truck">Truck</option>
+            <select id="intention" class="circuit_selector half_width">
+              <option value="positive">Positive (intentionally good)</option>
+              <option value="negative">Negative (intentionally bad)</option>
             </select>
           </div><br>
 

@@ -32,7 +32,7 @@ class Vehicle {
   // modify_self: If true, modifies 
 
   // Return [None/copy there Vehicle object, None/end location [[xloc, yloc], orientation index, speed]
-  execute_action(action_index, modify_self=True, get_copy_there=True, get_end_location=True) {
+  execute_action(action_index, modify_self=true, get_copy_there=true, get_end_location=true) {
 
     let end_orientation = this.orientation_index;
     let end_speed = this.speed;
@@ -43,25 +43,34 @@ class Vehicle {
 
     if (action_index === 0) {
       reached_positions = move_forwards_with_current_speed(this.xloc, this.yloc, this.orientation_index, this.speed);
-      orientation_at_step = (end_speed + 1)*[this.orientation_index];
+      orientation_at_step = generate_array(end_speed + 1, this.orientation_index);
+
     } else if ((action_index === 1) || (action_index === 2)) {
       reached_positions = move_forwards_with_current_speed(this.xloc, this.yloc, this.orientation_index, this.speed);
-      orientation_at_step = (end_speed + 1)*[this.orientation_index];
+      orientation_at_step = generate_array(end_speed + 1, this.orientation_index);
+
       end_orientation = turn_direction(end_orientation, action_index);
 
-      reached_positions.concat(move_forwards_with_current_speed(reached_positions[-1][0], reached_positions[-1][1], end_orientation, this.speed));
-      orientation_at_step += (end_speed + 1)*[end_orientation];
+      let last_reached_position = reached_positions[reached_positions.length - 1]
+      reached_positions = reached_positions.concat(move_forwards_with_current_speed(last_reached_position[0], last_reached_position[1], end_orientation, this.speed));
+      orientation_at_step = orientation_at_step.concat(generate_array(end_speed + 1, end_orientation));
+
     } else if (action_index === 3) {
       reached_positions = move_forwards_with_current_speed(this.xloc, this.yloc, this.orientation_index, this.speed);
-      orientation_at_step = (end_speed + 1)*[this.orientation_index];
+      orientation_at_step = generate_array(end_speed + 1, this.orientation_index);
       end_speed = this.increase_speed(end_speed);
+
     } else if (action_index === 4) {
       reached_positions = move_forwards_with_current_speed(this.xloc, this.yloc, this.orientation_index, this.speed);
-      orientation_at_step = (end_speed + 1)*[this.orientation_index];
+      orientation_at_step = generate_array(end_speed + 1, this.orientation_index);
       end_speed = this.reduce_speed(end_speed);
     }
 
     // If an intermediate location is not valid (as per the rewards matrix) then the vehicle stops there
+    // Placeholders
+    let x_end = null;
+    let y_end = null;
+
     for (let nv = 0; nv < reached_positions.length; nv++) {
       x_end = reached_positions[nv][0];
       y_end = reached_positions[nv][1];
@@ -82,8 +91,10 @@ class Vehicle {
       }
     }
 
+
+
     // Modifies vehicle itself if needed
-    if (this.modify_self) {
+    if (modify_self) {
       this.xloc = x_end;
       this.yloc = y_end;
       this.orientation_index = end_orientation;
@@ -121,7 +132,7 @@ class Vehicle {
 
   // Increases the speed, returns the updated speed
   increase_speed(start_speed) {
-    return min(this.speed_max, start_speed + 1);
+    return Math.min(this.speed_max, start_speed + 1);
   }
 }
 
@@ -184,4 +195,17 @@ function move_forwards_with_current_speed(start_x, start_y, start_direction, cur
   }
 
   return positions_along_the_way;
+}
+
+
+// Gets an array of length n with all its members being a
+function generate_array(n, a) {
+
+  A = [];
+
+  for (let nh = 0; nh < n; nh++) {
+    A.push(a);
+  }
+
+  return A;
 }

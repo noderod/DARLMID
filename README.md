@@ -268,3 +268,7 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 151. https://www.w3schools.com/js/js_classes.asp
 152. https://www.w3schools.com/js/js_comparisons.asp
 153. https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_concat
+154. https://stackoverflow.com/questions/3396754/onkeypress-vs-onkeyup-and-onkeydown
+155. https://stackoverflow.com/questions/24028225/addeventlistener-keypress-doesnt-register-key-presses
+156. https://css-tricks.com/snippets/javascript/javascript-keycodes/
+157. https://stackoverflow.com/questions/2647867/how-can-i-determine-if-a-variable-is-undefined-or-null

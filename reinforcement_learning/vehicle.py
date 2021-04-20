@@ -78,7 +78,7 @@ class Vehicle(object):
 
 
         # Modifies object itself if needed
-        if self.modify_self:
+        if modify_self:
             self.xloc = x_end
             self.yloc = y_end
             self.orientation_index = end_orientation

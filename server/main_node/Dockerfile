@@ -11,7 +11,7 @@ COPY circuits              /DARLMID/circuits
 RUN apk update &&\
     apk add bash curl gcc musl-dev postgresql-dev python3-dev &&\
     pip3 install --upgrade pip && pip3 install aiohttp aioredis bleach gunicorn psycopg2 &&\
-    mkdir /DARLMID/images
+    mkdir /DARLMID/data && mkdir /DARLMID/data/positive /DARLMID/data/negative
 
 
 WORKDIR /DARLMID

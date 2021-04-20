@@ -4,7 +4,10 @@ SUMMARY
 Necessary functions for driving
 */
 
-//Processes the entire 
+// Intention placeholder
+var chosen_intention = null;
+
+//Processes the entire driving setup
 async function process_driving_conditions() {
 
   let c = document.getElementById("circuit_selected");
@@ -12,7 +15,7 @@ async function process_driving_conditions() {
 
   let i = document.getElementById("intention");
   // Positive intention
-  let chosen_intention = i.options[i.selectedIndex].value;
+  chosen_intention = i.options[i.selectedIndex].value;
 
   let API_result = await POST_JSON_return_JSON("/retrieve_circuit_vehicle", {"circuit": chosen_circuit});
 
@@ -90,11 +93,7 @@ async function process_driving_conditions() {
             ]}
           ]},
 
-          {"<>":"br"},
-
-          {"<>":"div", "class":"center-x", "html":[
-            {"<>":"div", "class":"driving_log", "id":"driving log"}
-          ]}
+          {"<>":"br"}
         ]}
       ]},
       {"<>":"td", "class":"driving_area", "id":"driving area"}
@@ -106,10 +105,6 @@ async function process_driving_conditions() {
   let center_contents = json2html.transform({}, center_contents_JSON);
   replace_element_HTML_contents("center", center_contents);
 
-
-  // Sets the driving log as having 30% of the height of the total driving area
-  document.getElementById("driving log").style.height = Math.round(0.30*center_div_height).toString() + "px";
-
   var driving_area_to_be_drawn = document.getElementById("driving area");
 
   da_ow = driving_area_to_be_drawn.offsetWidth;
@@ -120,7 +115,7 @@ async function process_driving_conditions() {
   two.appendTo(driving_area_to_be_drawn);
 
   // Gets the reward matrix
-  let R = API_result["rewards matrix"];
+  R = API_result["rewards matrix"];
 
 
   // Gets the necessary requirements for accounting for measurements
@@ -141,7 +136,7 @@ async function process_driving_conditions() {
   draw_cell(goal_location, "Green", 3, "ForestGreen", "goal cell");
 
   // Valid cells
-  let valid_positions = API_result["valid positions"];
+  valid_positions = API_result["valid positions"];
 
   // Draws the valid positions
   for (let mt = 0; mt < valid_positions.length; mt++) {
@@ -166,99 +161,43 @@ async function process_driving_conditions() {
 
 
   // Generates a vehicle with at the start location
-  let user_vehicle = new Vehicle(nx, ny, start_location[0], start_location[1], start_orientation, start_speed, speed_max, R);
+  user_vehicle = new Vehicle(nx, ny, start_location[0], start_location[1], start_orientation, start_speed, speed_max, R);
 
+  // Draws the vehicle for the first time
 
-  // Keeps track of states and actions seen so far
-  // [[x, y, o, v, a], ...]
-  let sa_seen_so_far = [];
+  // Obtains vehicle values
+  let v_x = user_vehicle.xloc;
+  let v_y = user_vehicle.yloc;
+  let v_o = user_vehicle.orientation_index;
+  let v_v = user_vehicle.speed;
 
+  // Draws a triangle there
+  // Placeholder
+  let current_local_vehicle_coordinates = generate_vehicle_polygon(v_x, v_y, v_o);
 
-  // Placeholder for the drawn vehicle
-  let drawn_vehicle = null;
+  let vehicle_anchors = [];
 
-  // Keeps executing actions as needed
-  while (true) {
-
-    // Obtains vehicle values
-    let v_x = user_vehicle.xloc;
-    let v_y = user_vehicle.yloc;
-    let v_o = user_vehicle.orientation_index;
-    let v_v = user_vehicle.speed;
-
-    console.log(v_x);
-    console.log(v_y);
-    console.log(v_o);
-    console.log(v_v);
-
-    // Draws a triangle there
-    // Placeholder
-    let upright_vehicle_coordinates = [];
-
-    // Drawn manually to avoid rotations
-    if (v_o === 0) {
-      // North
-      upright_vehicle_coordinates = [
-        [v_x + 0.2, v_y + 0.2],
-        [v_x + 0.8, v_y + 0.2],
-        [v_x + 0.5, v_y + 0.8]
-      ];
-    } else if (v_o === 1) {
-      // East
-      upright_vehicle_coordinates = [
-        [v_x + 0.2, v_y + 0.2],
-        [v_x + 0.8, v_y + 0.5],
-        [v_x + 0.2, v_y + 0.8]
-      ];
-    } else if (v_o === 2) {
-      // South
-      upright_vehicle_coordinates = [
-        [v_x + 0.8, v_y + 0.8],
-        [v_x + 0.2, v_y + 0.8],
-        [v_x + 0.5, v_y + 0.2]
-      ];
-    } else if (v_o === 3) {
-      // West
-      upright_vehicle_coordinates = [
-        [v_x + 0.8, v_y + 0.8],
-        [v_x + 0.2, v_y + 0.5],
-        [v_x + 0.8, v_y + 0.2]
-      ];
-    }
-
-    let vehicle_anchors = [];
-
-    for (let ny = 0; ny < upright_vehicle_coordinates.length; ny++) {
-      let item_xy = generate_TWO_xy(upright_vehicle_coordinates[ny][0], circuit_xy_minmax[0], upright_vehicle_coordinates[ny][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=true);
-      vehicle_anchors.push(new Two.Anchor(item_xy[0], item_xy[1]));
-    }
-
-    drawn_vehicle = new Two.Path(vehicle_anchors, true, false);
-
-    drawn_vehicle.stroke = "MidnightBlue";
-    drawn_vehicle.linewidth = 3;
-    drawn_vehicle.fill = "MediumBlue";
-    drawn_vehicle.id = "vehicle";
-    two.add(drawn_vehicle);
-
-    // Renders the vehicle
-    two.update();
-
-
-    // Ends here
-    // ONLY AS OF NOW
-    break;
-
-    // Obtains user input
-
-
-    // Deletes the vehicle at the end of the round
-    two.remove(drawn_vehicle);
+  for (let ny = 0; ny < current_local_vehicle_coordinates.length; ny++) {
+    let item_xy = generate_TWO_xy(current_local_vehicle_coordinates[ny][0], circuit_xy_minmax[0], current_local_vehicle_coordinates[ny][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=true);
+    vehicle_anchors.push(new Two.Anchor(item_xy[0], item_xy[1]));
   }
 
+  drawn_vehicle = new Two.Path(vehicle_anchors, true, false);
 
-  // Sends the actions taken to the server
+  drawn_vehicle.stroke = "MidnightBlue";
+  drawn_vehicle.linewidth = 3;
+  drawn_vehicle.fill = "MediumBlue";
+  drawn_vehicle.id = "vehicle";
+  two.add(drawn_vehicle);
 
+  // Renders the vehicle
+  two.update();
+
+  // The user can start demonstrating now
+  demonstration_in_progress = true;
+
+  // Adds an event listener so that keypresses result in vehicle actions
+  window.addEventListener("keypress", vehicle_act);
 }
 
 
@@ -337,4 +276,164 @@ function draw_cell(BL, stroke_color, border_linewidth, fill_color, given_id) {
                     ]
 
   draw_single_item(cell_border, stroke_color, border_linewidth, fill_color, given_id);
+}
+
+// Placeholders for drawing area variables
+var da_ow = null;
+var da_oh = null;
+
+
+// Generates the polygon for a vehicle based on its current coordinates
+function generate_vehicle_polygon(v_x, v_y, v_o) {
+
+  if (v_o == 0) {
+    // North
+    return [
+      [v_x + 0.2, v_y + 0.2],
+      [v_x + 0.8, v_y + 0.2],
+      [v_x + 0.5, v_y + 0.8]
+    ];
+  } else if (v_o == 1) {
+    // East
+    return [
+      [v_x + 0.2, v_y + 0.2],
+      [v_x + 0.8, v_y + 0.5],
+      [v_x + 0.2, v_y + 0.8]
+    ];
+  } else if (v_o == 2) {
+    // South
+    return [
+      [v_x + 0.8, v_y + 0.8],
+      [v_x + 0.2, v_y + 0.8],
+      [v_x + 0.5, v_y + 0.2]
+    ];
+  } else if (v_o == 3) {
+    // West
+    return [
+      [v_x + 0.8, v_y + 0.8],
+      [v_x + 0.2, v_y + 0.5],
+      [v_x + 0.8, v_y + 0.2]
+    ];
+  }
+}
+
+// Placeholder rewards matrix
+var R = null;
+
+// Placeholder valid positions list
+var valid_positions = null;
+
+// Keeps track of states and actions seen so far
+// [[x, y, o, v, a], ...]
+var sa_seen_so_far = [];
+
+// Placeholder for the vehicle object (class) itself
+var user_vehicle = null;
+
+// Placeholder for the drawn vehicle
+var drawn_vehicle = null;
+
+// Demonstration continues until the vehicle crashes or reaches the goal
+var demonstration_in_progress = false;
+
+// Action codes
+// w: 87, 119
+// a: 65, 97
+// d: 68, 100
+// r: 82, 114
+// f: 70, 102
+var action_codes = {
+  87: 0,
+  119:0,
+
+  65: 1,
+  97: 1,
+
+  68: 2,
+  100: 2,
+
+  82: 3,
+  114: 3,
+
+  70: 4,
+  102: 4
+}
+
+
+// Vehicle actions by key
+function vehicle_act(event) {
+
+  // Do nothing if the demonstration has ended
+  if (! demonstration_in_progress) {
+    return;
+  }
+
+  // Removes the current vehicle drawing
+  two.remove(drawn_vehicle);
+
+  // Gets the keycode
+  let key_code = event.which;
+
+  // Placeholder
+  let action_index = action_codes[key_code];
+
+  // If undefined, do nothing
+  if (action_index == null) {
+    return;
+  }
+
+  // Gets the current vehicle conditions
+  let p_x = user_vehicle.xloc;
+  let p_y = user_vehicle.yloc;
+  let p_o = user_vehicle.orientation_index;
+  let p_v = user_vehicle.speed;
+
+  // Executes action
+  let movement_results = user_vehicle.execute_action(action_index, modify_self=true, get_copy_there=false, get_end_location=true);
+
+  let v_xy = movement_results[1][0];
+  let v_x = v_xy[0];
+  let v_y = v_xy[1];
+  let v_o = movement_results[1][1];
+  let v_v = movement_results[1][2];
+
+  // Adds [s, a] as [x, y, o, v, a]
+  sa_seen_so_far.push([p_x, p_y, p_o, p_v, action_index]);
+
+
+  // Draws vehicle in its new position
+  let current_local_vehicle_coordinates = generate_vehicle_polygon(v_x, v_y, v_o);
+
+  let vehicle_anchors = [];
+
+  for (let ny = 0; ny < current_local_vehicle_coordinates.length; ny++) {
+    let item_xy = generate_TWO_xy(current_local_vehicle_coordinates[ny][0], circuit_xy_minmax[0], current_local_vehicle_coordinates[ny][1], circuit_xy_minmax[1], da_ow, da_oh, y_invert=true);
+    vehicle_anchors.push(new Two.Anchor(item_xy[0], item_xy[1]));
+  }
+
+  drawn_vehicle = new Two.Path(vehicle_anchors, true, false);
+
+  drawn_vehicle.stroke = "MidnightBlue";
+  drawn_vehicle.linewidth = 3;
+  drawn_vehicle.fill = "MediumBlue";
+  drawn_vehicle.id = "vehicle";
+  two.add(drawn_vehicle);
+
+  // Renders the vehicle
+  two.update();
+
+
+  // If the vehicle has crashed or reached the reward, end here
+  if (R[v_x][v_y] != (-1)) {
+
+    // End demonstration
+    demonstration_in_progress = false;
+
+    // Send data to server
+    // TODO
+    POST_JSON_return_JSON("/receive_demonstration_data", {"actions taken":sa_seen_so_far, "intent":chosen_intention});
+
+    // Notify the user
+    alert("Demonstration has ended and data has been sent to the server");
+  }
 }

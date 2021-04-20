@@ -6,6 +6,7 @@ Directs TCP traffic and executes the appropriate commands or returning the corre
 
 import json
 import os
+import uuid
 
 from aiohttp import web
 
@@ -194,8 +195,7 @@ async def retrieve_circuit_vehicle(request):
     except:
         raise web.HTTPUnprocessableEntity()
 
-    # Ensures that all JSON data inputs contain:
-    # username, password, agreed to TOS
+    # Ensures that all JSON data inputs contain: "circuit"
     necessary_fields = ["circuit"]
     if not check_keys_in_dict(received_cv_data, necessary_fields):
         return web.json_response({"Missing keys": ", ".join(missing_keys_in_dict(received_cv_data, necessary_fields))})
@@ -214,6 +214,42 @@ async def retrieve_circuit_vehicle(request):
     necessary_info["Output"] = "Success"
 
     return web.json_response(necessary_info)
+
+
+# Receives the data
+async def receive_demonstration_data(request):
+
+    # Not logged-in, redirect to /
+    if not (await is_logged_in(request)):
+        raise web.HTTPFound("/")
+
+    # If it fails, return a failure
+    try:
+        received_driving_data = await request.json()
+    except:
+        raise web.HTTPUnprocessableEntity()
+
+
+    # Ensures necessary fields are there
+    necessary_fields = ["actions taken", "intent"]
+    if not check_keys_in_dict(received_driving_data, necessary_fields):
+        return web.json_response({"Missing keys": ", ".join(missing_keys_in_dict(received_driving_data, necessary_fields))})
+
+    positive_intent_location = "/DARLMID/data/positive/"
+    negative_intent_location = "/DARLMID/data/negative/"
+
+    if received_driving_data["intent"] == "positive":
+        data_storage_location = positive_intent_location + uuid.uuid4().hex + ".json"
+    else:
+        data_storage_location = negative_intent_location + uuid.uuid4().hex + ".json"
+
+
+    # Writes the data to location, datafile is named randomly
+    with open(data_storage_location, "w") as jf:
+        jf.write(json.dumps(received_driving_data, indent=4))
+
+    return web.json_response({"Output":"Success"})
+
 
 
 # Redirects to custom 404 page
@@ -285,6 +321,8 @@ DARLMID_web_app.router.add_get("/driving", driving)
 # Retrieving circuit and vehicle information
 DARLMID_web_app.router.add_post("/retrieve_circuit_vehicle", retrieve_circuit_vehicle)
 
+# Receives demonstration data
+DARLMID_web_app.router.add_post("/receive_demonstration_data", receive_demonstration_data)
 
 
 # Error handling

@@ -19,7 +19,7 @@ services:
      - "8080"
     volumes:
       - es_storage:/expert_seas/images
-    command: "sleep infinity"
+    command: "/DARLMID/startup.sh"
     environment:
       - MAIN_NODE_URL
       - REDIS_HOST

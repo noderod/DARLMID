@@ -4,6 +4,7 @@ FROM python:3.9-alpine
 COPY helper.py             /DARLMID/helper.py
 COPY helper_postgres.py    /DARLMID/helper_postgres.py
 COPY traffic.py            /DARLMID/traffic.py
+COPY data_combiner.py      /DARLMID/data_combiner.py
 COPY startup.sh            /DARLMID/startup.sh
 COPY create_tables.py      /DARLMID/create_tables.py
 COPY html                  /DARLMID/html

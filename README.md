@@ -52,7 +52,8 @@ Python3 libraries:
 ## Deployment
 
 
-All commands start within the root directory for this repository.
+All commands start within the root directory for this repository. Unless mentioned in this README, all *reinforcement_learning* python scripts can show the
+meaning of all flags when flag *--help* is used.
 
 1. Generate the necessary matrices and data
 
@@ -78,7 +79,7 @@ Example:
 
 ```bash
 cd reinforcement_learning/
-python3 q_Astar_trainer.py --A-star-runs 30 --data circuits/five_Q_matrix.json --output circuits/five_A_1.j
+python3 q_Astar_trainer.py --A-star-runs 20 --data circuits/five_Q_matrix.json --output demonstration_data/five_A_1.json
 ```
 
 
@@ -90,6 +91,12 @@ However, it results in a faster search than Breadth First Search while still pro
 3. Setup the docker containers
 
 Modify the *.env* file to change the credentials.
+
+Enter the generated Q matrix circuit (*five_Q_matrix.json*) from step 1 as *five.json* in circuits (this step is aready complete in the repository):
+
+```bash
+cat reinforcement_learning/circuits/five_Q_matrix.json > server/main_node/circuits/five.json
+```
 
 
 Note: *sudo* permission may be necessary.
@@ -103,6 +110,116 @@ Note, to bring the containers down:
 ```bash
 make teardown
 ```
+
+4. Train
+
+Create an account by going to the appropiate URL and sign-up, then click on *Driving RL*.
+Execute as many positive and negative intent demonstrations as needed. Here, only 20 of each are done.
+
+Enter the *main_node* container (sudo may be needed), combine all positive and negative intent data, export the data:
+
+```bash
+# Enter the container
+docker exec -it server_main_node_1 bash
+
+# Combine the data
+python3 data_combiner.py
+
+# Exit the container and export the data
+exit
+docker cp server_main_node_1:/DARLMID/data/combined_negative.json reinforcement_learning/demonstration_data/combined_negative.json
+docker cp server_main_node_1:/DARLMID/data/combined_positive.json reinforcement_learning/demonstration_data/combined_positive.json
+```
+
+
+
+5. Q-learning
+
+Note: *reinforcement_learning/q_compare_1v1.py* doesnot accept flags or arguments, changes must be done on the file itself.
+
+
+Run a simple Q-learning agent without any demonstrations.
+
+Example:
+```bash
+cd reinforcement_learning/
+python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
+                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --output results/five_output.json \
+                   --show
+```
+
+
+Optional: Run a Q-learning agent using the A* demonstrations from step 2:
+
+Example:
+```bash
+cd reinforcement_learning/
+python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
+                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --positive-demonstration demonstration_data/five_A_1.json \
+                   --output results/five_A_1_output.json \
+                   --show
+
+# Compare both models
+# Update q_compare_1v1.py first if needed
+vi q_compare_1v1.py
+python3 q_compare_1v1.py
+```
+
+Run a Q-learning agent using the positive demonstrations from step 4:
+
+Example:
+```bash
+cd reinforcement_learning/
+# Run using A* as a demonstration
+python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
+                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --positive-demonstration demonstration_data/combined_positive.json \
+                   --output results/five_positive_output.json \
+                   --show
+
+# Compare both models
+# Update q_compare_1v1.py first if needed
+vi q_compare_1v1.py
+python3 q_compare_1v1.py
+```
+
+Run a Q-learning agent using negative demonstrations from step 4:
+
+Example:
+```bash
+cd reinforcement_learning/
+python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
+                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --negative-demonstration demonstration_data/combined_negative.json \
+                   --output results/five_negative_output.json \
+                   --show
+
+# Compare both models
+# Update q_compare_1v1.py first if needed
+vi q_compare_1v1.py
+python3 q_compare_1v1.py
+```
+
+Run a Q-learning agent using both positive and negative demonstrations from step 4:
+
+Example:
+```bash
+cd reinforcement_learning/
+python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
+                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --positive-demonstration demonstration_data/combined_positive.json \
+                   --negative-demonstration demonstration_data/combined_negative.json \
+                   --output results/five_positive_and_negative_output.json \
+                   --show
+
+# Compare both models
+# Update q_compare_1v1.py first if needed
+vi q_compare_1v1.py
+python3 q_compare_1v1.py
+```
+
 
 
 
@@ -272,3 +389,5 @@ and conditions is provided in the [licenses](./server/licenses) subdirectory.
 155. https://stackoverflow.com/questions/24028225/addeventlistener-keypress-doesnt-register-key-presses
 156. https://css-tricks.com/snippets/javascript/javascript-keycodes/
 157. https://stackoverflow.com/questions/2647867/how-can-i-determine-if-a-variable-is-undefined-or-null
+158. https://stackoverflow.com/questions/31746182/docker-compose-wait-for-container-x-before-starting-y
+159. https://stackoverflow.com/questions/20895290/count-number-of-files-within-a-directory-in-linux

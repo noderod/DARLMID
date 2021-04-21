@@ -28,7 +28,10 @@ required_flags.add_argument("--explore-probability",required=True,  help="Explor
 required_flags.add_argument("--learning-rate",required=True,  help="Learning rate [0, 1]", type=float)
 required_flags.add_argument("--discount-factor",required=True,  help="Discount factor [0, 1]", type=float)
 required_flags.add_argument("--data",required=True,  help="JSON filepath to read Q, rewards matrices and other information", type=str)
-required_flags.add_argument("--demonstration", help="JSON filepath to read Q matrix updates after a number of demonstrations (already processed)", type=str)
+required_flags.add_argument("--positive-demonstration", help="JSON filepath to read Q matrix updates after a number of positive demonstrations (already processed)", type=str)
+required_flags.add_argument("--negative-demonstration", help="JSON filepath to read Q matrix updates after a number of negative demonstrations (already processed)", type=str)
+required_flags.add_argument("--good-advice-decay", help="Training epochs good advice is remembered (50 by defaulr)", type=int)
+required_flags.add_argument("--bad-advice-decay", help="Training epochs bad advice is remembered (5 by defaulr)", type=int)
 required_flags.add_argument("--output", required=True, help="JSON filepath to output the results", type=str)
 parser.add_argument("--show", help="Show output reward vs. epoch plot", action="store_true")
 args = parser.parse_args()
@@ -41,6 +44,18 @@ p_exp = args.explore_probability
 assert (0 <= p_exp) and (p_exp <= 1), "Explore probability must be between 0 and 1"
 assert (0 <= α) and (α <= 1), "Learning rate must be between 0 and 1"
 assert (0 <= γ) and (γ <= 1), "Discount factor must be between 0 and 1"
+
+
+good_advice_decay_epochs = 50
+bad_advice_decay_epochs = 5
+
+if args.good_advice_decay:
+    assert args.good_advice_decay >= 0, "Good advice decay cannot be negative epochs"
+    good_advice_retention_epochs = args.good_advice_decay
+
+if args.bad_advice_decay:
+    assert args.bad_advice_decay >= 0, "Bad advice decay cannot be negative epochs"
+    bad_advice_retention_epochs = args.bad_advice_decay
 
 
 
@@ -71,37 +86,64 @@ actions = [j for j in range(0, len(original_data["actions"]))]
 # UPDATES Q MATRIX WITH DEMONSTRATION RESULTS
 #-----------------------------------------------------
 
-# Utilizes demonstration data if needed
-if args.demonstration:
+# Stores advice actions
+# "good":{"x, y, o, v":True, ...}
+# "bad": {"x, y, o, v":True, ...}
+advice_locations = {"good":{}, "bad":{}}
+
+# From Useful Policy Invariant Shaping from Arbitrary Advice (Behboudian et al.)
+
+
+
+# Utilizes positive demonstration data
+# Positive intent -> Intentionally good demonstrations (although perhaps the user is incompetent)
+if args.positive_demonstration:
 
     # Retrieves demonstration data
-    with open(args.demonstration, "r") as jf:
+    with open(args.positive_demonstration, "r") as jf:
         original_demonstration_data =  json.load(jf)
 
     action_sets_taken = original_demonstration_data["actions taken"]
-    # Positive intent -> Intentionally good demonstrations (although perhaps the user is incompetent)
-    # Negative intent -> Intentionally poor or misleading demonstrations
-    positive_intent = original_demonstration_data["intent"] == "positive"
+
+    # Simply take the data as is, modify the appropriate Q matrix value, adding +1 to the appropiate Q[s, a] location
+    for an_action_path in action_sets_taken:
+
+        # Goes step by step
+        for a_step in an_action_path:
+            step_x = a_step[0]
+            step_y = a_step[1]
+            step_o = a_step[2]
+            step_v = a_step[3]
+            step_a = a_step[4]
+
+            Q[step_x][step_y][step_o][step_v][step_a] += 1
+            advice_locations["good"][aux.state_to_str(step_x, step_y, step_o, step_v)] = good_advice_decay_epochs
 
 
-    if positive_intent:
+# Utilizes negative demonstration data
+# Negative intent -> Intentionally poor or misleading demonstrations
+if args.negative_demonstration:
 
-        # Simply take the data as is, modify the appropriate Q matrix value, adding +1 to the appropiate Q[s, a] location
-        for an_action_path in action_sets_taken:
+    # Retrieves demonstration data
+    with open(args.negative_demonstration, "r") as jf:
+        original_demonstration_data =  json.load(jf)
 
-            # Goes step by step
-            for a_step in an_action_path:
-                step_x = a_step[0]
-                step_y = a_step[1]
-                step_o = a_step[2]
-                step_v = a_step[3]
-                step_a = a_step[4]
+    action_sets_taken = original_demonstration_data["actions taken"]
 
-                Q[step_x][step_y][step_o][step_v][step_a] += 1
+    for an_action_path in action_sets_taken:
 
-    else:
-        # TODO
-        pass
+        # Goes step by step
+        for a_step in an_action_path:
+            step_x = a_step[0]
+            step_y = a_step[1]
+            step_o = a_step[2]
+            step_v = a_step[3]
+            step_a = a_step[4]
+
+            # Desincentive bad behaviour in the Q matrix
+            Q[step_x][step_y][step_o][step_v][step_a] -= 1
+            advice_locations["bad"][aux.state_to_str(step_x, step_y, step_o, step_v)] = bad_advice_decay_epochs
+
 
 
 #-----------------------------------------------------
@@ -172,6 +214,10 @@ def train_Q():
     # Reshuffles the valid starting locations
     random.shuffle(valid_positions)
 
+    # Stores the good and bad advice states reached this round
+    good_advice_states_seen = {}
+    bad_advice_states_seen = {}
+
     # Goes through every valid position
     for a_valid_position in valid_positions:
         xloc, yloc = a_valid_position
@@ -220,7 +266,31 @@ def train_Q():
             Q_apostrophe_max = max(Q[v_x_new][v_y_new][v_orientation_new][v_speed_new])
             Q_sa = Q[v_x][v_y][v_orientation][v_speed][chosen_action_index]
 
+            # Only modifies the current value if the advice memory has not run out yet in general
+            s_as_state = aux.state_to_str(v_x, v_y, v_orientation, v_speed)
+
+            if (s_as_state in advice_locations["good"]) and (advice_locations["good"][s_as_state] > 0):
+
+                if s_as_state not in good_advice_states_seen:
+                    good_advice_states_seen[s_as_state] = True
+                continue
+            elif (s_as_state in advice_locations["bad"]) and (advice_locations["bad"][s_as_state] > 0):
+
+                if s_as_state not in bad_advice_states_seen:
+                    bad_advice_states_seen[s_as_state] = True
+                continue
+
             Q[v_x][v_y][v_orientation][v_speed][chosen_action_index] = Q_sa + α*(R[v_x][v_y] + γ*Q_apostrophe_max - Q_sa)
+
+
+    # Marks certain states as seen this round
+    for a_good_seen_state in good_advice_states_seen:
+        # Good advice reward decays
+        advice_locations["good"][a_good_seen_state] -= 1/good_advice_decay_epochs
+
+    for a_bad_seen_state in bad_advice_states_seen:
+        # Bad advice reward rises
+        advice_locations["bad"][a_bad_seen_state] += 1/bad_advice_decay_epochs
 
 
 

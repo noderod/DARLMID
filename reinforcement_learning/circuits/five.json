@@ -20,8 +20,6 @@
     "goal": [97, 97],
 
     "obstacles":[
-        [10, 10],
-        [85, 80]
     ],
 
     "speed range":3

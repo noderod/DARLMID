@@ -13,12 +13,12 @@ import matplotlib.pyplot as plt
 
 
 # File names
-q1_file = "circuits/five_output.json"
-q2_file = "circuits/five_A_1_output.json"
+q1_file = "results/five_output.json"
+q2_file = "results/five_positive_and_negative_output.json"
 
 # Plotting variables
 q1_label = "Standard Q-learning"
-q2_label = "A* demonstrations"
+q2_label = "Combined demonstrations"
 
 #-----------------------------------------------------
 # DATA PREPROCESSING
@@ -92,6 +92,7 @@ plt.plot(q2_epochs, q2_rewards, "g-", label=q2_label)
 
 plt.xlabel("Epochs")
 plt.ylabel("Averaged reward")
+plt.legend()
 
 plt.title("%s vs %s" % (q1_label, q2_label))
 

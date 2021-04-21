@@ -73,3 +73,11 @@ def L1(P1, P2):
     x2, y2 = P2
 
     return abs(x2 - x1) + abs(y2 - y1)
+
+
+
+"""
+Turns x, y, o, v into a string of the form "x, y, v, o"
+"""
+def state_to_str(x, y, v, o):
+    return "%d, %d, %d, %d" % (x, y, v, o)

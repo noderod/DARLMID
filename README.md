@@ -79,7 +79,7 @@ Example:
 
 ```bash
 cd reinforcement_learning/
-python3 q_Astar_trainer.py --A-star-runs 20 --data circuits/five_Q_matrix.json --output demonstration_data/five_A_1.json
+python3 q_Astar_trainer.py --A-star-runs 50 --data circuits/five_Q_matrix.json --output demonstration_data/five_A_1.json
 ```
 
 

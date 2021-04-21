@@ -91,8 +91,6 @@ class Vehicle {
       }
     }
 
-
-
     // Modifies vehicle itself if needed
     if (modify_self) {
       this.xloc = x_end;

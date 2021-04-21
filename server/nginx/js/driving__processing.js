@@ -7,6 +7,14 @@ Necessary functions for driving
 // Intention placeholder
 var chosen_intention = null;
 
+// Index to orientation
+var o_index_to_orientation = {
+  0:"N",
+  1:"E",
+  2:"S",
+  3:"W"
+}
+
 //Processes the entire driving setup
 async function process_driving_conditions() {
 
@@ -125,7 +133,8 @@ async function process_driving_conditions() {
   ny = API_result["ny"];
 
   // Vehicle data
-  let speed_max = API_result["possible speeds"];
+  // Subtract one because 0 is a speed
+  let speed_max = API_result["possible speeds"] - 1;
 
   circuit_xy_minmax = [[0, nx], [0, ny]];
 
@@ -158,6 +167,9 @@ async function process_driving_conditions() {
   start_orientation = Math.min(start_orientation, 3);
   // Starting speed is always 0
   let start_speed = 0;
+
+  // Shows the updated orientation
+  replace_element_HTML_contents("vehicle orientation", o_index_to_orientation[start_orientation]);
 
 
   // Generates a vehicle with at the start location
@@ -419,6 +431,11 @@ function vehicle_act(event) {
   drawn_vehicle.id = "vehicle";
   two.add(drawn_vehicle);
 
+
+  // Updates the vehicle orientation and speed in the front-end
+  replace_element_HTML_contents("vehicle orientation", o_index_to_orientation[v_o]);
+  replace_element_HTML_contents("vehicle speed", v_v.toString());
+
   // Renders the vehicle
   two.update();
 
@@ -430,7 +447,6 @@ function vehicle_act(event) {
     demonstration_in_progress = false;
 
     // Send data to server
-    // TODO
     POST_JSON_return_JSON("/receive_demonstration_data", {"actions taken":sa_seen_so_far, "intent":chosen_intention});
 
     // Notify the user

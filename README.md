@@ -144,7 +144,7 @@ Example:
 ```bash
 cd reinforcement_learning/
 python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
-                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --discount-factor 0.3 --data circuits/five_Q_matrix.json \
                    --output results/five_output.json \
                    --show
 ```
@@ -156,7 +156,7 @@ Example:
 ```bash
 cd reinforcement_learning/
 python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
-                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --discount-factor 0.3 --data circuits/five_Q_matrix.json \
                    --positive-demonstration demonstration_data/five_A_1.json \
                    --output results/five_A_1_output.json \
                    --show
@@ -172,9 +172,8 @@ Run a Q-learning agent using the positive demonstrations from step 4:
 Example:
 ```bash
 cd reinforcement_learning/
-# Run using A* as a demonstration
 python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
-                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --discount-factor 0.3 --data circuits/five_Q_matrix.json \
                    --positive-demonstration demonstration_data/combined_positive.json \
                    --output results/five_positive_output.json \
                    --show
@@ -191,7 +190,7 @@ Example:
 ```bash
 cd reinforcement_learning/
 python3 q_learn.py --epochs 300 --explore-probability 0.15 --learning-rate 0.25 \
-                   --discount-factor 0.20 --data circuits/five_Q_matrix.json \
+                   --discount-factor 0.3 --data circuits/five_Q_matrix.json \
                    --negative-demonstration demonstration_data/combined_negative.json \
                    --output results/five_negative_output.json \
                    --show

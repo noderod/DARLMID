@@ -394,7 +394,7 @@ def train_Q():
 
     for a_bad_seen_state in bad_advice_states_seen:
         # Bad advice reward rises
-        advice_locations["bad"][a_bad_seen_state][0] += 1
+        advice_locations["bad"][a_bad_seen_state][0] -= 1
 
 
 

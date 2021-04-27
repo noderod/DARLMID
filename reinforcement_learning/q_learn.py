@@ -10,6 +10,7 @@ import random
 import sys
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 import auxiliary as aux
 from vehicle import Vehicle
@@ -47,7 +48,9 @@ assert (0 <= γ) and (γ <= 1), "Discount factor must be between 0 and 1"
 
 
 good_advice_decay_epochs = 50
+good_decay_ratio = 1/good_advice_decay_epochs
 bad_advice_decay_epochs = 5
+bad_decay_ratio = 1/bad_advice_decay_epochs
 
 if args.good_advice_decay:
     assert args.good_advice_decay >= 0, "Good advice decay cannot be negative epochs"
@@ -79,11 +82,32 @@ valid_positions = original_data["valid positions"]
 
 orientations = [i for i in range(0, len(original_data["orientations"]))]
 actions = [j for j in range(0, len(original_data["actions"]))]
+num_actions = len(actions)
 
 
 
 #-----------------------------------------------------
-# UPDATES Q MATRIX WITH DEMONSTRATION RESULTS
+# NECESSARY VARIABLES
+#-----------------------------------------------------
+
+β_good = 0.2
+β_bad = 0.2
+
+ξ_0 = 1
+δ_0 = 0
+Φ_0 = 0
+
+R_expert_good = 1
+R_expert_bad = -1
+
+
+# Sets the Φ(s, a), R^{expert}
+# Always 0
+Φ = np.zeros((nx, ny, len(orientations), possible_speeds, len(actions)))
+R_expert = np.zeros((nx, ny, len(orientations), possible_speeds, len(actions)))
+
+#-----------------------------------------------------
+# ADVICE PROCESSING
 #-----------------------------------------------------
 
 # Stores advice actions
@@ -116,8 +140,8 @@ if args.positive_demonstration:
             step_v = a_step[3]
             step_a = a_step[4]
 
-            Q[step_x][step_y][step_o][step_v][step_a] += 1
-            advice_locations["good"][aux.state_to_str(step_x, step_y, step_o, step_v)] = good_advice_decay_epochs
+            advice_locations["good"][aux.state_to_str(step_x, step_y, step_o, step_v)] = [good_advice_decay_epochs, step_a]
+            R_expert[step_x][step_y][step_o][step_v][step_a] = R_expert_good
 
 
 # Utilizes negative demonstration data
@@ -140,9 +164,8 @@ if args.negative_demonstration:
             step_v = a_step[3]
             step_a = a_step[4]
 
-            # Desincentive bad behaviour in the Q matrix
-            Q[step_x][step_y][step_o][step_v][step_a] -= 1
-            advice_locations["bad"][aux.state_to_str(step_x, step_y, step_o, step_v)] = bad_advice_decay_epochs
+            advice_locations["bad"][aux.state_to_str(step_x, step_y, step_o, step_v)] = [bad_advice_decay_epochs, step_a]
+            R_expert[step_x][step_y][step_o][step_v][step_a] = R_expert_bad
 
 
 
@@ -242,12 +265,105 @@ def train_Q():
             # If below the explore probability, explore, choose an action at random
             if what_to_do <= p_exp:
                 chosen_action_index = random.randint(0, 4)
+                given_reward = R[v_x][v_y]
+                expert_opinion_used = False
+                α_used = α
             else:
                 # Chooses the action index with the maximum reward in Q
                 # If two actions have the same optimal Q-value, the first one will be chosen
                 Q_values_to_choose = Q[v_x][v_y][v_orientation][v_speed]
-                best_Q_value = max(Q_values_to_choose)
-                chosen_action_index = Q_values_to_choose.index(best_Q_value)
+
+                # Selects the best actions a priori
+                a_priori_best_Q_value = max(Q_values_to_choose)
+                a_priori_best_action = Q_values_to_choose.index(a_priori_best_Q_value)
+
+
+                # Checks if this state was considered good or bad
+                s_as_state = aux.state_to_str(v_x, v_y, v_orientation, v_speed)
+
+                if (s_as_state in advice_locations["good"]) and (advice_locations["good"][s_as_state][1] == a_priori_best_action) and (advice_locations["good"][s_as_state][0] > 0):
+                    if s_as_state not in good_advice_states_seen:
+                        good_advice_states_seen[s_as_state] = True
+
+                    expert_opinion_used = True
+                    advice_followed_times = good_advice_decay_epochs - advice_locations["good"][s_as_state][0]
+                    decay_ratio = good_decay_ratio
+                    α_used = 0.05
+                    β_used = β_good
+
+                elif (s_as_state in advice_locations["bad"]) and (advice_locations["bad"][s_as_state][1] == a_priori_best_action) and (advice_locations["bad"][s_as_state][0] > 0):
+
+                    if s_as_state not in bad_advice_states_seen:
+                        bad_advice_states_seen[s_as_state] = True
+
+                    expert_opinion_used = True
+                    advice_followed_times = bad_advice_decay_epochs - advice_locations["bad"][s_as_state][0]
+                    decay_ratio = bad_decay_ratio
+                    α_used = 0.1
+                    β_used = β_bad
+
+                else:
+
+                    # Action not provided as advice
+                    best_Q_value = a_priori_best_Q_value
+                    chosen_action_index = a_priori_best_action
+                    given_reward = R[v_x][v_y]
+                    expert_opinion_used = False
+                    α_used = α
+
+
+            if expert_opinion_used:
+
+                # Q(s, a) - ξ_t*Φ_t(s, a)
+                policies_to_choose = [0 for a in range(0, num_actions)]
+
+                # Stores Φ_t(s, a), Φ_t(s', a') values before the update
+                pu_Φ_t_sa = np.zeros((num_actions))
+                pu_Φ_t_snan = np.zeros((num_actions))
+
+                for an_action in range(0, num_actions):
+
+                    # Gets the next location but does not move there yet if no expert was provided using a priori data
+                    [_0, possible_next_sa] = tested_vehicle.execute_action(a_priori_best_action,
+                                                                modify_self=False,
+                                                                get_copy_there=False,
+                                                                get_end_location=True)
+
+                    sn_x = possible_next_sa[0][0]
+                    sn_y = possible_next_sa[0][1]
+                    sn_o = possible_next_sa[1]
+                    sn_v = possible_next_sa[2]
+                    Q_sn = Q[sn_x][sn_y][sn_o][sn_v]
+                    sn_a = Q_sn.index(max(Q_sn))
+
+                    # Φ_t(s, a)
+                    Φ_t_sa = Φ[v_x][v_y][v_orientation][v_speed][an_action]
+                    pu_Φ_t_sa[an_action] = Φ_t_sa
+                    # Assumption to avoid BFS
+                    # Φ_{t+1}(s', a') = Φ_t(s', a')
+                    # Φ_t(s', a')
+                    Φ_t_snan = Φ[sn_x][sn_y][sn_o][sn_v][sn_a]
+                    pu_Φ_t_snan[an_action] = Φ_t_snan
+
+                    # δ_t^Φ
+                    δ_t_Φ = -R_expert[v_x][v_y][v_orientation][v_speed][an_action] + γ*Φ_t_snan - Φ_t_sa
+
+                    # ξ_t
+                    # Counts how many times this particular advice has been followed
+                    ξ_t = 1 - advice_followed_times*decay_ratio
+
+                    # generates the local policies to choose from
+                    policies_to_choose[an_action] = Q_values_to_choose[an_action] - ξ_t*Φ_t_sa
+
+                    # Generates Φ_{t+1}(s, a)
+                    Φ[v_x][v_y][v_orientation][v_speed][an_action] = Φ_t_sa + β_used*δ_t_Φ
+
+
+                # Chooses the optimal policy action
+                chosen_action_index = policies_to_choose.index(max(policies_to_choose))
+
+                given_reward = R[v_x][v_y] + γ*pu_Φ_t_snan[chosen_action_index] - pu_Φ_t_sa[chosen_action_index]
+
 
             # Makes the vehicle attempt the action
             [_1, location_end] = tested_vehicle.execute_action(chosen_action_index,
@@ -266,31 +382,19 @@ def train_Q():
             Q_apostrophe_max = max(Q[v_x_new][v_y_new][v_orientation_new][v_speed_new])
             Q_sa = Q[v_x][v_y][v_orientation][v_speed][chosen_action_index]
 
-            # Only modifies the current value if the advice memory has not run out yet in general
             s_as_state = aux.state_to_str(v_x, v_y, v_orientation, v_speed)
 
-            if (s_as_state in advice_locations["good"]) and (advice_locations["good"][s_as_state] > 0):
-
-                if s_as_state not in good_advice_states_seen:
-                    good_advice_states_seen[s_as_state] = True
-                continue
-            elif (s_as_state in advice_locations["bad"]) and (advice_locations["bad"][s_as_state] > 0):
-
-                if s_as_state not in bad_advice_states_seen:
-                    bad_advice_states_seen[s_as_state] = True
-                continue
-
-            Q[v_x][v_y][v_orientation][v_speed][chosen_action_index] = Q_sa + α*(R[v_x][v_y] + γ*Q_apostrophe_max - Q_sa)
+            Q[v_x][v_y][v_orientation][v_speed][chosen_action_index] = Q_sa + α_used*(given_reward + γ*Q_apostrophe_max - Q_sa)
 
 
     # Marks certain states as seen this round
     for a_good_seen_state in good_advice_states_seen:
         # Good advice reward decays
-        advice_locations["good"][a_good_seen_state] -= 1/good_advice_decay_epochs
+        advice_locations["good"][a_good_seen_state][0] -= 1
 
     for a_bad_seen_state in bad_advice_states_seen:
         # Bad advice reward rises
-        advice_locations["bad"][a_bad_seen_state] += 1/bad_advice_decay_epochs
+        advice_locations["bad"][a_bad_seen_state][0] += 1
 
 
 
